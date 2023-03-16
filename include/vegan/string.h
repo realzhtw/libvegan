@@ -11,7 +11,7 @@ namespace vegan {
       string() {}
       string(const char *);
       explicit string(const_string_ref);
-      explicit string(const char *, long n);
+      explicit string(const char *, Long n);
       string(const string &);
       string(string &&);
 

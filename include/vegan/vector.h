@@ -14,8 +14,8 @@ namespace vegan {
   class vector {
     public:
       vector() {}
-      explicit vector(long n);
-      explicit vector(long n, const T &);
+      explicit vector(Long n);
+      explicit vector(Long n, const T &);
       vector(const_vector_ref<T>);
       vector(const vector<T> &x);
       ~vector();
@@ -23,11 +23,11 @@ namespace vegan {
             T *ptr(Long i = 0)       { return impl.as_vector<T>().ptr(i); }
       const T *ptr(Long i = 0) const { return impl.as_vector<T>().ptr(i); }
 
-      long size() const { return impl.size() / sizeof(T); }
+      Long size() const { return impl.size() / sizeof(T); }
       bool empty() const { return size() == 0; }
 
-      const T &operator[](long i) const { return *ptr(i); }
-            T &operator[](long i)       { return *ptr(i); }
+      const T &operator[](Long i) const { return *ptr(i); }
+            T &operator[](Long i)       { return *ptr(i); }
 
             T *begin()       { return ptr(); }
       const T *begin() const { return ptr(); }
@@ -42,7 +42,7 @@ namespace vegan {
     vector<T>::vector(Long n): impl{n*(Long)sizeof(T)} { initialize(impl.as_vector<T>()); }
 
   template<typename T>
-    vector<T>::vector(long n, const T &x): impl{n*sizeof(T)} { initialize(impl.as_vector<T>(), x); }
+    vector<T>::vector(Long n, const T &x): impl{n*sizeof(T)} { initialize(impl.as_vector<T>(), x); }
 
   template<typename T>
     vector<T>::vector(const_vector_ref<T> v): impl{v.size()*sizeof(T)} { initialize(impl.as_vector<T>(), v); }

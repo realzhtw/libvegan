@@ -4,7 +4,7 @@
 namespace vegan {
 
   typedef unsigned char Byte;
-  typedef int           Char;
+  enum class Char: int;
 
   typedef decltype(sizeof 0) size_t;
   typedef decltype((char *)0 - (char *)0) Long;

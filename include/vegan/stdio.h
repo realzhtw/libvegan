@@ -18,6 +18,7 @@ namespace vegan {
   class const_string_ref;
 
   void fprint(output_port &, char);
+  void fprint(output_port &, Char);
   void fprint(output_port &, int);
   void fprint(output_port &, const_string_ref);
 

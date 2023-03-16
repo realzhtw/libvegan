@@ -20,7 +20,7 @@ namespace vegan {
 
     private:
       char *p = nullptr;
-      long  n = 0;
+      Long  n = 0;
   };
 
   class const_string_ref {
@@ -35,7 +35,7 @@ namespace vegan {
 
     private:
       const char *p = nullptr;
-      long        n = 0;
+      Long        n = 0;
   };
 
 }

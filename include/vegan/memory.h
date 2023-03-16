@@ -13,7 +13,7 @@ namespace vegan {
 
   template<typename T> void initialize(vector_ref<T> v)
   {
-    for (long i = 0; i != v.size(); ++i) {
+    for (Long i = 0; i != v.size(); ++i) {
       try {
         new (v.ptr(i)) T{};
       }
@@ -26,7 +26,7 @@ namespace vegan {
 
   template<typename T> void initialize(vector_ref<T> v, const T &x)
   {
-    for (long i = 0; i != v.size(); ++i) {
+    for (Long i = 0; i != v.size(); ++i) {
       try {
         new (v.ptr(i)) T{x};
       }
@@ -39,7 +39,7 @@ namespace vegan {
 
   template<typename T> void initialize(vector_ref<T> v, const_vector_ref<T> x)
   {
-    for (long i = 0; i != v.size(); ++i) {
+    for (Long i = 0; i != v.size(); ++i) {
       try {
         new (v.ptr(i)) T{x[i]};
       }
@@ -52,7 +52,7 @@ namespace vegan {
 
   template<typename T> void destroy(vector_ref<T> v)
   {
-    for (long i = v.size() - 1; i != -1; --i)
+    for (Long i = v.size() - 1; i != -1; --i)
       v[i].~T();
   }
 
