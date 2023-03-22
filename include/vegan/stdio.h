@@ -2,25 +2,46 @@
 #define VEGAN_STDIO_H
 
 #include <vegan/bytes.h>
+#include <vegan/rune.h>
 #include <vegan/io_error.h>
-#include <vegan/string_ref.h>
 #include <vegan/vector_ref.h>
-//#include <vegan/input_port.h>
+#include <vegan/input_port.h>
 #include <vegan/output_port.h>
 
 namespace vegan {
 
-  //extern input_port &stdin;
+  extern input_port &stdin;
   extern output_port &stdout;
   //extern output_port &stderr;
 
   class string;
-  class const_string_ref;
+  class string_ref;
+
+  //bool fpeek(input_port &, bytes_ref);
+  bool fpeek(input_port &, byte &);
+  bool fpeek(input_port &, rune &);
+  bool fskip(input_port &, Long n = 1);
+  bool fskiprune(input_port &);
+  Long fread(input_port &, byte *, Long);
+  inline bool fread(input_port &ip, bytes_ref b) { return fread(ip, b.ptr(), b.size()); }
+
+  bool fgetbyte(input_port &, byte &);
+  bool fgetrune(input_port &, rune &);
+  bool fputback(input_port &, byte);
+  bool fputback(input_port &, rune);
+
+  string fgetline(input_port &, Long maxlen = 0);
+
+  inline bool peek(rune &c) { return fpeek(stdin, c); }
+  inline bool getbyte(byte &b) { return fgetbyte(stdin, b); }
+  inline bool getrune(rune &c) { return fgetrune(stdin, c); }
 
   void fprint(output_port &, char);
-  void fprint(output_port &, Char);
+  void fprint(output_port &, rune);
   void fprint(output_port &, int);
-  void fprint(output_port &, const_string_ref);
+  void fprint(output_port &, long);
+  void fprint(output_port &, string_ref);
+  void fprint(output_port &, const char *);
 
   template<typename T>
     void fprint(output_port &op, const_vector_ref<T> x)

@@ -10,6 +10,12 @@ namespace vegan {
 
   file_output_port::~file_output_port() { flush(); }
 
+  void file_output_port::close()
+  {
+    flush();
+    file_port::close();
+  }
+
   void file_output_port::flush()
   {
     if (!output_buf.empty()) {

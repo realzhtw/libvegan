@@ -1,5 +1,6 @@
 #include <vegan/vector.h>
 #include <vegan/sort.h>
+#include <vegan/bsearch.h>
 #include <vegan/stdio.h>
 
 using namespace vegan;
@@ -8,7 +9,6 @@ int main()
 {
   vector<int> x{10};
 
-  
   x[0] = 1;
   x[1] = -42026;
   x[2] = 5;
@@ -29,6 +29,11 @@ int main()
   for (int i = 0; i != 9; ++i) {
     if (!(x[i] < x[i+1]))
       return i;
+  }
+
+  for (int i = 0; i != 9; ++i) {
+    auto pos = bsearch(x, x[i]);
+    println("bsearch(", x, ", ", x[i], ") = ", pos);
   }
 
   return 0;

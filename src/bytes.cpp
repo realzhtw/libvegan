@@ -5,11 +5,13 @@ namespace vegan {
 
   bytes::bytes(Long n)
   {
-    Byte *p = (Byte *)platform::alloc(n);
+    byte *p = (byte *)platform::alloc(n);
     if (p == nullptr)
       throw bad_alloc{};
     impl = bytes_ref{p, n};
   }
+
+  bytes::bytes(const_bytes_ref b): bytes{b.size()} { copy(ptr(), b); }
 
   void bytes::free()
   {
@@ -17,12 +19,12 @@ namespace vegan {
     impl = bytes_ref{};
   }
 
-  void copy(Byte *dst, const Byte *src, Long n)
+  void copy(byte *dst, const byte *src, Long n)
   {
     while (n-- > 0)
       *dst++ = *src++;
   }
 
-  void copy(Byte *dst, const_bytes_ref b) { copy(dst, b.ptr(), b.size()); }
+  void copy(byte *dst, const_bytes_ref b) { copy(dst, b.ptr(), b.size()); }
 
 }

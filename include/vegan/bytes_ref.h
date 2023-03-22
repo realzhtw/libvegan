@@ -2,37 +2,44 @@
 #define VEGAN_BYTES_REF_H
 
 #include <vegan/types.h>
-#include <vegan/vector_ref.h>
 
 namespace vegan {
 
   class bytes;
 
+  class string_ref;
+
+  template<typename T> class vector_ref;
+  template<typename T> class const_vector_ref;
+
   class bytes_ref {
     public:
       bytes_ref() {}
       bytes_ref(bytes &b);
-      explicit bytes_ref(Byte *p, Long n): impl{p, n} {}
+      explicit bytes_ref(byte *p, Long n): impl{p, n} {}
+      template<Long n> bytes_ref(byte (&b)[n]): impl{b, n} {}
 
-      Byte *ptr(Long i = 0) const { return impl.p + i; }
+      byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
       bool empty() const { return size() == 0; }
 
-      Byte &operator[](Long i) const { return *ptr(i); }
+      byte &operator[](Long i) const { return *ptr(i); }
 
       void drop_first(Long n) { impl.p += n; impl.n -= n; }
 
-      bytes_ref first_n(Long n) const { return bytes_ref{ptr(), n}; }
-      bytes_ref last_n(Long n) const { return bytes_ref{ptr(size() - n), n}; }
+      bytes_ref slice(Long i)         const { return bytes_ref{ptr(i), size() - i}; }
+      bytes_ref slice(Long i, Long n) const { return bytes_ref{ptr(i), n}; }
 
-      template<typename T>
-        vector_ref<T> as_vector() const {
-          return vector_ref<T>{(T *)ptr(), size() / (Long)sizeof(T)};
-        }
+      bytes_ref first_n(Long n) const { return slice(0, n); }
+      bytes_ref last_n(Long n) const { return slice(size() - n, n); }
+
+      template<typename T> vector_ref<T> as_vector() const;
+
+      string_ref as_string() const;
 
     private:
       struct Impl {
-        Byte *p = nullptr;
+        byte *p = nullptr;
         Long  n = 0;
       } impl;
   };
@@ -41,34 +48,35 @@ namespace vegan {
     public:
       const_bytes_ref() {}
       const_bytes_ref(const bytes &b);
-      explicit const_bytes_ref(const Byte *p, Long n): impl{p, n} {}
+      explicit const_bytes_ref(const byte *p, Long n): impl{p, n} {}
+      template<Long n> const_bytes_ref(const byte (&b)[n]): impl{b, n} {}
+      //template<Long n> const_bytes_ref(byte b[n]): impl{b, n} {}
       const_bytes_ref(const bytes_ref &b): impl{b.ptr(), b.size()} {}
 
-      const Byte *ptr(Long i = 0) const { return impl.p + i; }
+      const byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
       bool empty() const { return size() == 0; }
 
-      const Byte &operator[](Long i) const { return *ptr(i); }
+      const byte &operator[](Long i) const { return *ptr(i); }
 
       void drop_first(Long n) { impl.p += n; impl.n -= n; }
 
-      const_bytes_ref first_n(Long n) const { return const_bytes_ref{ptr(), n}; }
-      const_bytes_ref last_n(Long n) const { return const_bytes_ref{ptr(size() - n), n}; }
+      const_bytes_ref slice(Long i)         const { return const_bytes_ref{ptr(i), size() - i}; }
+      const_bytes_ref slice(Long i, Long n) const { return const_bytes_ref{ptr(i), n}; }
 
-      template<typename T>
-        const_vector_ref<T> as_vector() const {
-          return const_vector_ref<T>{(const T *)ptr(), size() / (Long)sizeof(T)};
-        }
+      const_bytes_ref first_n(Long n) const { return slice(0, n); }
+      const_bytes_ref last_n(Long n) const { return slice(size() - n, n); }
+
+      template<typename T> const_vector_ref<T> as_vector() const;
+
+      string_ref as_string() const;
  
     private:
       struct Impl {
-        const Byte *p = nullptr;
+        const byte *p = nullptr;
         Long        n = 0;
       } impl;
   };
-
-  inline       bytes_ref cut(      bytes_ref b, Long i, Long n) { return       bytes_ref{b.ptr(i), n}; }
-  inline const_bytes_ref cut(const_bytes_ref b, Long i, Long n) { return const_bytes_ref{b.ptr(i), n}; }
 
 }
 

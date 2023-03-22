@@ -8,20 +8,27 @@
 
 namespace vegan {
 
-  class file_output_port: private file_port, public output_port {
+  class file_output_port: public file_port, public output_port {
     public:
       file_output_port() {}
-      ~file_output_port();
       explicit file_output_port(int fd);
-      explicit file_output_port(const_string_ref path);
-
-      void open(const_string_ref path);
+      ~file_output_port();
 
       void write(const_bytes_ref) override;
       void flush() override;
-      void close();
+      void close() override;
     private:
       output_buffer output_buf;
+  };
+
+  file_output_port open_output_file(string_ref path);
+
+  class unbuffered_file_output_port: public file_port, public unbuffered_output_port {
+    public:
+      unbuffered_file_output_port() {}
+      explicit unbuffered_file_output_port(int fd) {}
+      ~unbuffered_file_output_port();
+    private:
   };
 
 }

@@ -20,7 +20,12 @@ namespace vegan {
       return buf.st_blksize;
     }
 
-    Long write(int fd, const Byte *p, Long n)
+    Long read(int fd, byte *p, Long n)
+    {
+      return ::read(fd, p, n);
+    }
+
+    Long write(int fd, const byte *p, Long n)
     {
       int r = 0;
       do {

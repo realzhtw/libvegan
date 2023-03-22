@@ -22,3 +22,13 @@ project "sort"
   files { "examples/sort.cpp" }
   includedirs { "include" }
   links { "veganc++" }
+
+project "wc"
+  kind "ConsoleApp"
+  language "C++"
+  cppdialect "C++20"
+  symbols "On"
+
+  files { "examples/wc.cpp" }
+  includedirs { "include" }
+  links { "veganc++" }

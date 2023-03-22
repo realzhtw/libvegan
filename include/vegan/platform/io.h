@@ -11,8 +11,8 @@ namespace vegan {
 
     Long get_block_size(int fd);
 
-    Long read(int fd, Byte *buf, Long n);
-    Long write(int fd, const Byte *buf, Long n);
+    Long read(int fd, byte *buf, Long n);
+    Long write(int fd, const byte *buf, Long n);
 
   }
 }

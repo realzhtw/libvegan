@@ -9,6 +9,8 @@ namespace vegan {
 
   template<typename T> class vector_ref {
     public:
+      vector_ref() {}
+      template<Long n> vector_ref(T (&x)[n]): p{x}, n{n} {}
       explicit vector_ref(T *p, Long n): p{p}, n{n} {}
       //vector_ref(vector_ref<T> &x): p{x.p}, n{x.n} {}
       vector_ref(vector<T> &);
@@ -30,6 +32,8 @@ namespace vegan {
 
   template<typename T> class const_vector_ref {
     public:
+      const_vector_ref() {}
+      template<Long n> const_vector_ref(const T (&x)[n]): p{x}, n{n} {}
       explicit const_vector_ref(const T *p, Long n): p{p}, n{n} {}
       //const_vector_ref(const const_vector_ref<T> &x): p{x.p}, n{x.n} {}
       const_vector_ref(vector_ref<T> x): p{x.ptr()}, n{x.size()} {}

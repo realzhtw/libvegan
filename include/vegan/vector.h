@@ -16,7 +16,7 @@ namespace vegan {
       vector() {}
       explicit vector(Long n);
       explicit vector(Long n, const T &);
-      vector(const_vector_ref<T>);
+      explicit vector(const_vector_ref<T>);
       vector(const vector<T> &x);
       ~vector();
 
@@ -51,7 +51,20 @@ namespace vegan {
     vector<T>::~vector() { destroy(impl.as_vector<T>()); impl = bytes{}; }
 
   template<typename T> vector_ref<T>::vector_ref(vector<T> &v): p{v.ptr()}, n{v.size()} {}
+
   template<typename T> const_vector_ref<T>::const_vector_ref(const vector<T> &v): p{v.ptr()}, n{v.size()} {}
+
+  template<typename T>
+    vector_ref<T> bytes_ref::as_vector() const
+    {
+      return vector_ref<T>{(T *)ptr(), size() / (Long)sizeof(T)};
+    }
+
+  template<typename T>
+    const_vector_ref<T> const_bytes_ref::as_vector() const
+    {
+      return const_vector_ref<T>{(const T *)ptr(), size() / (Long)sizeof(T)};
+    }
 
 }
 

@@ -13,6 +13,11 @@ namespace vegan {
       virtual ~output_port() {}
   };
 
+  class unbuffered_output_port: public output_port {
+    public:
+      void flush() override {}
+  };
+
 }
 
 #endif

@@ -10,15 +10,18 @@ namespace vegan {
   class file {
     public:
       file() {}
+      explicit file(int fd) { fdopen(fd); }
       ~file();
 
-      void open(const_string_ref);
+      void open(string_ref);
       void fdopen(int fd);
 
       int fd() { return impl.fd; }
       bool is_open() const { return impl.fd != -1; }
 
+      Long read(byte *, Long);
       Long read(bytes_ref);
+      void write(const byte *, Long);
       void write(const_bytes_ref);
       void flush();
       Long get_block_size();

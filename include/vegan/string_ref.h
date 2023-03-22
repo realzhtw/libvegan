@@ -2,36 +2,24 @@
 #define VEGAN_STRING_REF_H
 
 #include <vegan/types.h>
-#include <vegan/bytes_ref.h>
 
 namespace vegan {
 
   class string;
+  class const_bytes_ref;
 
   class string_ref {
     public:
       string_ref() {}
-      string_ref(string &);
-      explicit string_ref(char *p, Long n): p{p}, n{n} {}
+      string_ref(const char *);
+      template<Long n> string_ref(const char s[n]): p{s}, n{n} {}
+      string_ref(const string &);
+      explicit string_ref(const char *p, Long n): p{p}, n{n} {}
 
+      const char *ptr() { return p; }
       Long size() const { return n; }
 
-      bytes_ref as_bytes() const { return bytes_ref{(Byte *)p, n}; }
-
-    private:
-      char *p = nullptr;
-      Long  n = 0;
-  };
-
-  class const_string_ref {
-    public:
-      const_string_ref(const string &);
-      const_string_ref(const char *);
-      explicit const_string_ref(const char *p, Long n): p{p}, n{n} {}
-
-      Long size() const { return n; }
-
-      const_bytes_ref as_bytes() const { return const_bytes_ref{(Byte *)p, n}; }
+      const_bytes_ref as_bytes() const;
 
     private:
       const char *p = nullptr;

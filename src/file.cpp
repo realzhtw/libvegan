@@ -10,12 +10,24 @@ namespace vegan {
 
   void file::fdopen(int fd) { impl = Impl{fd, false}; }
 
-  void file::write(const_bytes_ref b)
+  void file::write(const byte *p, Long n)
   {
-    int n = platform::write(fd(), b.ptr(), b.size());
-    if (n != b.size())
+    auto r = platform::write(fd(), p, n);
+    if (r != n)
        throw write_error{};
   }
+
+  void file::write(const_bytes_ref b) { return write(b.ptr(), b.size()); }
+
+  Long file::read(byte *p, Long n)
+  {
+    auto r = platform::read(fd(), p, n);
+    if (r == -1)
+      throw read_error{};
+    return r;
+  }
+
+  Long file::read(bytes_ref b) { return read(b.ptr(), b.size()); }
 
   void file::close() { platform::close(fd()); }
 
