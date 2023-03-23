@@ -22,12 +22,16 @@ namespace vegan {
 
     Long read(int fd, byte *p, Long n)
     {
-      return ::read(fd, p, n);
+      Long r;
+      do  {
+        r = ::read(fd, p, n);
+      } while (r == -1 && errno == EINTR);
+      return r;
     }
 
     Long write(int fd, const byte *p, Long n)
     {
-      int r = 0;
+      Long r;
       do {
         r = ::write(fd, p, n);
       } while (r == -1 && errno == EINTR);

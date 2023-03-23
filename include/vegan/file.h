@@ -20,10 +20,10 @@ namespace vegan {
       bool is_open() const { return impl.fd != -1; }
 
       Long read(byte *, Long);
-      Long read(bytes_ref);
-      void write(const byte *, Long);
-      void write(const_bytes_ref);
-      void flush();
+      //Long read(bytes_ref);
+      Long write(const byte *, Long);
+      //void write(const_bytes_ref);
+      //void flush();
       Long get_block_size();
       void close();
 

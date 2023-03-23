@@ -30,9 +30,6 @@ namespace vegan {
       bytes_ref slice(Long i)         const { return bytes_ref{ptr(i), size() - i}; }
       bytes_ref slice(Long i, Long n) const { return bytes_ref{ptr(i), n}; }
 
-      bytes_ref first_n(Long n) const { return slice(0, n); }
-      bytes_ref last_n(Long n) const { return slice(size() - n, n); }
-
       template<typename T> vector_ref<T> as_vector() const;
 
       string_ref as_string() const;
@@ -63,9 +60,6 @@ namespace vegan {
 
       const_bytes_ref slice(Long i)         const { return const_bytes_ref{ptr(i), size() - i}; }
       const_bytes_ref slice(Long i, Long n) const { return const_bytes_ref{ptr(i), n}; }
-
-      const_bytes_ref first_n(Long n) const { return slice(0, n); }
-      const_bytes_ref last_n(Long n) const { return slice(size() - n, n); }
 
       template<typename T> const_vector_ref<T> as_vector() const;
 

@@ -12,18 +12,21 @@ namespace vegan {
 
   extern input_port &stdin;
   extern output_port &stdout;
-  //extern output_port &stderr;
+  extern output_port &stderr;
+
+  input_port &current_input_port();
+  output_port &current_output_port();
 
   class string;
   class string_ref;
 
+  Long fread(input_port &, byte *, Long);
+  bool fread(input_port &, bytes_ref);
   //bool fpeek(input_port &, bytes_ref);
   bool fpeek(input_port &, byte &);
   bool fpeek(input_port &, rune &);
   bool fskip(input_port &, Long n = 1);
   bool fskiprune(input_port &);
-  Long fread(input_port &, byte *, Long);
-  inline bool fread(input_port &ip, bytes_ref b) { return fread(ip, b.ptr(), b.size()); }
 
   bool fgetbyte(input_port &, byte &);
   bool fgetrune(input_port &, rune &);
@@ -36,6 +39,8 @@ namespace vegan {
   inline bool getbyte(byte &b) { return fgetbyte(stdin, b); }
   inline bool getrune(rune &c) { return fgetrune(stdin, c); }
 
+  void fwrite(output_port &, const byte *, Long);
+  void fwrite(output_port &, const_bytes_ref);
   void fprint(output_port &, char);
   void fprint(output_port &, rune);
   void fprint(output_port &, int);

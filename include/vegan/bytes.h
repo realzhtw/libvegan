@@ -32,10 +32,6 @@ namespace vegan {
             bytes_ref slice(Long i)       { return impl.slice(i); }
       const_bytes_ref slice(Long i, Long n) const { return impl.slice(i, n); }
             bytes_ref slice(Long i, Long n)       { return impl.slice(i, n); }
-      const_bytes_ref first_n(Long n) const { return impl.first_n(n); }
-            bytes_ref first_n(Long n)       { return impl.first_n(n); }
-      const_bytes_ref last_n(Long n) const { return impl.last_n(n); }
-            bytes_ref last_n(Long n)       { return impl.last_n(n); }
 
       template<typename T>
         vector_ref<T> as_vector() { return impl.as_vector<T>(); }

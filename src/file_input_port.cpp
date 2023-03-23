@@ -7,7 +7,7 @@ namespace vegan {
 
   file_input_port::~file_input_port() {}
 
-  Long file_input_port::read(byte *p, Long n)
+  Long file_input_port::read_some(byte *p, Long n)
   {
     if (n == 0) return 0;
 

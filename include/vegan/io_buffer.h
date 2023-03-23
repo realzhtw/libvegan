@@ -32,6 +32,7 @@ namespace vegan {
       const_bytes_ref data() const { return b.slice(i, bytes_left()); }
 
       bool empty() const { return bytes_left() == 0; }
+      bool full() const { return space_left() == 0; }
 
     private:
       bytes b;

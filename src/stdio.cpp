@@ -9,15 +9,17 @@ namespace vegan {
 
   file_input_port standard_input_port{0};
   file_output_port standard_output_port{1};
+  unbuffered_file_output_port standard_error_port{2};
 
   input_port &stdin = standard_input_port;
   output_port &stdout = standard_output_port;
+  output_port &stderr = standard_error_port;
 
   Long fread(input_port &ip, byte *p, Long n)
   {
     Long pos = 0;
     while (pos < n) {
-      auto r = ip.read(p + pos, n - pos);
+      auto r = ip.read_some(p + pos, n - pos);
       if (r == 0) break;
       pos += r;
     }
@@ -26,7 +28,7 @@ namespace vegan {
 
   bool fpeek(input_port &ip, byte &b)
   {
-    if (ip.read(&b, 1) != 1) return false;
+    if (ip.read_some(&b, 1) != 1) return false;
     if (!ip.unread(&b, 1)) throw io_error{};
     return true;
   }
@@ -71,14 +73,27 @@ namespace vegan {
     return string{s.data()};
   }
 
-  void fprint(output_port &op, char c) { op.write(const_bytes_ref((const byte *)&c, 1)); }
+  void fwrite(output_port &op, const byte *p, Long n)
+  {
+    Long pos = 0;
+    while (pos < n) {
+      auto r = op.write_some(p + pos, n - pos);
+      if (r == 0)
+        throw io_error{};
+      pos += r;
+    }
+  }
+
+  void fwrite(output_port &op, const_bytes_ref b) { fwrite(op, b.ptr(), b.size()); }
+
+  void fprint(output_port &op, char c) { fwrite(op, (const byte *)&c, 1); }
   void fprint(output_port &op, rune r)
   {
     byte buf[6];
     utf8::encode_rune(r, buf);
-    op.write(buf);
+    fwrite(op, buf);
   }
-  void fprint(output_port &op, string_ref s) { op.write(s.as_bytes()); }
+  void fprint(output_port &op, string_ref s) { fwrite(op, s.as_bytes()); }
   void fprint(output_port &op, const char *s) { fprint(op, string_ref{s}); }
   void fprint(output_port &op, int x) { fprint(op, to_string(x)); }
   void fprint(output_port &op, long x) { fprint(op, to_string(x)); }

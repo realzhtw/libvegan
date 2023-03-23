@@ -13,24 +13,14 @@ namespace vegan {
     public:
       file_input_port() {}
       explicit file_input_port(int fd, int lookahead = 0);
-      explicit file_input_port(string_ref path);
+      //explicit file_input_port(string_ref path);
       ~file_input_port();
 
-      Long read(byte *, Long) override;
+      Long read_some(byte *, Long) override;
       bool unread(const byte *, Long) override;
 
     private:
       io_buffer buf;
-  };
-
-  class unbuffered_file_input_port: public file_port, public unbuffered_input_port {
-    public:
-      unbuffered_file_input_port() {}
-      ~unbuffered_file_input_port();
-
-      Long read(byte *, Long) override;
-    
-    private:
   };
 
 }
