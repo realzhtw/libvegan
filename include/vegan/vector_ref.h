@@ -8,62 +8,43 @@ namespace vegan {
 
   template<typename T> class vector;
 
-  template<typename T> class vector_ref {
+  template<typename T> class vector_ref_base {
     public:
-      vector_ref() {}
-      template<Long n> vector_ref(T (&x)[n]): p{x}, n{n} {}
-      vector_ref(T *p, Long n): p{p}, n{n} {}
-      vector_ref(vector<T> &);
-      
+      vector_ref_base(T *p, Long n): p{p}, n{n} {}
+
       T *ptr(Long i = 0) const { return p + i; }
       Long size() const { return n; }
 
       T &operator[](Long i) const { return *ptr(i); }
 
-      //vector_slice<T> slice(Long start, Long stride, Long size) const { return 
-
-      T *begin() const { return p; }
-      T *end() const { return p + n; }
-
+      T *begin() const { return this->ptr(); }
+      T *end() const { return this->ptr(this->size()); }
     private:
       T    *p = nullptr;
       Long  n = 0;
   };
 
-  template<typename T> class const_vector_ref {
+  template<typename T> class vector_ref: public vector_ref_base<T> {
     public:
-      const_vector_ref() {}
-      template<Long n> const_vector_ref(const T (&x)[n]): p{x}, n{n} {}
-      const_vector_ref(const T *p, Long n): p{p}, n{n} {}
-      const_vector_ref(vector_ref<T> x): p{x.ptr()}, n{x.size()} {}
-      const_vector_ref(const vector<T> &);
-      
-      const T *ptr(Long i = 0) const { return p + i; }
-      Long size() const { return n; }
-
-      const T &operator[](Long i) const { return *ptr(i); }
-
-      const T *begin() const { return p; }
-      const T *end() const { return p + n; }
-
-    private:
-      const T *p = nullptr;
-      Long     n = 0;
+      vector_ref() {}
+      template<Long n> vector_ref(T (&x)[n]): vector_ref_base<T>{x, n} {}
+      vector_ref(T *p, Long n): vector_ref_base<T>{p, n} {}
+      vector_ref(vector<T> &);
   };
 
-  template<typename T> class vector_rv_ref {
+  template<typename T> class const_vector_ref: public vector_ref_base<const T> {
     public:
-      vector_rv_ref(T *p, Long n): p{p}, n{n} {}
-      vector_rv_ref(vector<T> &&v): vector_rv_ref{v.ptr(), v.size()} {}
+      const_vector_ref() {}
+      template<Long n> const_vector_ref(const T (&x)[n]): vector_ref_base<const T>{x, n} {}
+      const_vector_ref(const T *p, Long n): vector_ref_base<const T>{p, n} {}
+      const_vector_ref(vector_ref<T> x): vector_ref_base<const T>{x.ptr(), x.size()} {}
+      const_vector_ref(const vector<T> &);
+  };
 
-      T *ptr(Long i = 0) const { return p + i; }
-      Long size() const { return n; }
-      
-      T &operator[](Long i) const { return *ptr(i); }
-
-    private:
-      T   *p = nullptr;
-      Long n = 0;
+  template<typename T> class vector_rv_ref: public vector_ref_base<T> {
+    public:
+      vector_rv_ref(T *p, Long n): vector_ref_base<T>{p, n} {}
+      vector_rv_ref(vector<T> &&v): vector_ref_base<T>{v.ptr(), v.size()} {}
   };
 
   template<typename T>
