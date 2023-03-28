@@ -7,6 +7,8 @@ namespace vegan {
 
   const rune bad_rune = rune{-1};
 
+  inline int ord(rune r) { return (int)r; }
+
   inline bool operator==(rune a, char b) { return (int)a == b; }
   inline bool operator==(char a, rune b) { return a == (int)b; }
 

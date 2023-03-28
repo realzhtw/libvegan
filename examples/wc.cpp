@@ -9,8 +9,8 @@ int main()
   Long runes = 0;
   rune r;
   while (getrune(r)) {
-    if (r == '\n') ++lines;
-    //if (isspace(r)) ++words;
+    if (r == '\n') { println("new line: ", ord(r)); ++lines; }
+    if (isspace(r)) { println("new word: ", ord(r)); ++words; }
     ++runes;
   }
   println("lines = ", lines);

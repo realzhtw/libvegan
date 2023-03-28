@@ -8,9 +8,6 @@
 namespace vegan {
   namespace platform {
 
-    void *alloc(long n) { return ::malloc(n); }
-    void free(void *p) { ::free(p); }
-
     bool close(int fd) { return ::close(fd) == 0; }
 
     Long get_block_size(int fd)

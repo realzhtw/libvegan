@@ -12,11 +12,11 @@ namespace vegan {
       string(const char *);
       explicit string(const char *, Long n);
       explicit string(string_ref s);
-      string(const string &);
-      string(string &&);
+      string(const string &s): string{s.ptr(), s.size()} {}
+      string(string &&s): impl{move(s.impl)} {}
 
       string &operator=(const string &);
-      string &operator=(string &&);
+      string &operator=(string &&s) { impl = move(s.impl); return *this; }
 
             char *ptr()       { return (char *)impl.ptr(); }
       const char *ptr() const { return (char *)impl.ptr(); }

@@ -72,6 +72,9 @@ namespace vegan {
       } impl;
   };
 
+  void copy(byte *dst, const byte *, Long);
+  void copy(byte *dst, const_bytes_ref);
+
 }
 
 #endif

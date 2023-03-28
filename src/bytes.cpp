@@ -19,12 +19,4 @@ namespace vegan {
     impl = bytes_ref{};
   }
 
-  void copy(byte *dst, const byte *src, Long n)
-  {
-    while (n-- > 0)
-      *dst++ = *src++;
-  }
-
-  void copy(byte *dst, const_bytes_ref b) { copy(dst, b.ptr(), b.size()); }
-
 }

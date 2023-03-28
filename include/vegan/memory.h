@@ -8,17 +8,19 @@ namespace vegan {
 
   template<typename T> void initialize(vector_ref<T>);
   template<typename T> void initialize(vector_ref<T>, const T &);
-  template<typename T> void initialize(vector_ref<T>, const_vector_ref<T>);
+  template<typename T> void initialize(T *, const_vector_ref<T>);
+  template<typename T> void initialize(T *, vector_rv_ref<T>);
+  template<typename T> void destroy(T *, Long n);
   template<typename T> void destroy(vector_ref<T>);
 
-  template<typename T> void initialize(vector_ref<T> v)
+  template<typename T> void initialize(vector_ref<T> x)
   {
-    for (Long i = 0; i != v.size(); ++i) {
+    for (Long i = 0; i != x.size(); ++i) {
       try {
-        new (v.ptr(i)) T{};
+        new (x.ptr(i)) T{};
       }
       catch(...) {
-        destroy(first_n(v, i));
+        destroy(first_n(x, i));
         throw;
       }
     }
@@ -37,24 +39,39 @@ namespace vegan {
     }
   }
 
-  template<typename T> void initialize(vector_ref<T> v, const_vector_ref<T> x)
+  template<typename T> void initialize(T *p, const_vector_ref<T> x)
   {
-    for (Long i = 0; i != v.size(); ++i) {
+    for (Long i = 0; i != x.size(); ++i) {
       try {
-        new (v.ptr(i)) T{x[i]};
+        new (p+i) T{x[i]};
       }
       catch(...) {
-        destroy(first_n(v, i));
+        destroy(vector_ref{p, i});
         throw;
       }
     }
   }
 
-  template<typename T> void destroy(vector_ref<T> v)
+  template<typename T> void initialize(T *p, vector_rv_ref<T> x)
   {
-    for (Long i = v.size() - 1; i != -1; --i)
-      v[i].~T();
+    for (Long i = 0; i != x.size(); ++i) {
+      try {
+        new (p+i) T{move(x[i])};
+      }
+      catch(...) {
+        destroy(vector_ref{p, i});
+        throw;
+      }
+    }
   }
+
+  template<typename T> void destroy(T *p, Long n)
+  {
+    for (Long i = n - 1; i != -1; --i)
+      (p+i)->~T();
+  }
+
+  template<typename T> void destroy(vector_ref<T> v) { destroy(v.ptr(), v.size()); }
 
 }
 

@@ -9,4 +9,14 @@ namespace vegan {
     return n;
   }
 
+  Long c_string_copy(bytes_ref dst, const char *s)
+  {
+    Long i = 0;
+    Long maxlen = dst.size() - 1;
+    while (i < maxlen && *s)
+      dst[i++] = *s++;
+    dst[i] = 0;
+    return i;
+  }
+
 }

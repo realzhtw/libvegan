@@ -3,6 +3,8 @@
 
 namespace vegan {
 
+  string::string(const char *s): string{s, c_string_length(s)} {}
+
   string::string(const char *p, Long n): impl{n+1}
   {
     copy(impl.ptr(), reinterpret_cast<const byte *>(p), n);

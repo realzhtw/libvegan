@@ -49,9 +49,6 @@ namespace vegan {
   inline bytes_ref::bytes_ref(bytes &b): bytes_ref{b.ptr(), b.size()} {}
   inline const_bytes_ref::const_bytes_ref(const bytes &b): const_bytes_ref{b.ptr(), b.size()} {}
 
-  void copy(byte *dst, const byte *, Long);
-  void copy(byte *dst, const_bytes_ref);
-
 }
 
 #endif

@@ -12,11 +12,10 @@ namespace vegan {
     public:
       string_ref() {}
       string_ref(const char *);
-      template<Long n> string_ref(const char s[n]): p{s}, n{n} {}
       string_ref(const string &);
       explicit string_ref(const char *p, Long n): p{p}, n{n} {}
 
-      const char *ptr() { return p; }
+      const char *ptr() const { return p; }
       Long size() const { return n; }
 
       const_bytes_ref as_bytes() const;
@@ -24,6 +23,18 @@ namespace vegan {
     private:
       const char *p = nullptr;
       Long        n = 0;
+  };
+
+  class c_string_ref {
+    public:
+      c_string_ref() {}
+      c_string_ref(const char *s): p{s} {}
+      c_string_ref(const string &);
+
+      const char *ptr() const { return p; }
+
+    private:
+      const char *p = nullptr;
   };
 
 }

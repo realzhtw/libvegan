@@ -10,7 +10,9 @@ project "veganc++"
 
   files { "include/vegan/*.h",
           "include/vegan/*/*.h",
-          "src/*.cpp" }
+          "src/*.cpp",
+          "src/platform/*.cpp" }
+
   includedirs { "include" }
 
 project "sort"
@@ -30,5 +32,15 @@ project "wc"
   symbols "On"
 
   files { "examples/wc.cpp" }
+  includedirs { "include" }
+  links { "veganc++" }
+
+project "ls"
+  kind "ConsoleApp"
+  language "C++"
+  cppdialect "C++20"
+  symbols "On"
+
+  files { "examples/ls.cpp" }
   includedirs { "include" }
   links { "veganc++" }

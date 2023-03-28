@@ -16,8 +16,9 @@ namespace vegan {
       vector() {}
       explicit vector(Long n);
       explicit vector(Long n, const T &);
-      explicit vector(const_vector_ref<T>);
-      vector(const vector<T> &x);
+      explicit vector(const_vector_ref<T> v);
+      vector(vector<T> &&v): impl{move(v.impl)} {}
+      vector(const vector<T> &v): vector{v.ptr(), v.size()} {}
       ~vector();
 
             T *ptr(Long i = 0)       { return impl.as_vector<T>().ptr(i); }
@@ -42,29 +43,23 @@ namespace vegan {
     vector<T>::vector(Long n): impl{n*(Long)sizeof(T)} { initialize(impl.as_vector<T>()); }
 
   template<typename T>
-    vector<T>::vector(Long n, const T &x): impl{n*sizeof(T)} { initialize(impl.as_vector<T>(), x); }
+    vector<T>::vector(Long n, const T &x): impl{n*(Long)sizeof(T)} { initialize(impl.as_vector<T>(), x); }
 
   template<typename T>
-    vector<T>::vector(const_vector_ref<T> v): impl{v.size()*sizeof(T)} { initialize(impl.as_vector<T>(), v); }
+    vector<T>::vector(const_vector_ref<T> v): impl{v.size()*(Long)sizeof(T)} { initialize(impl.as_vector<T>().ptr(), v); }
 
   template<typename T>
     vector<T>::~vector() { destroy(impl.as_vector<T>()); impl = bytes{}; }
 
-  template<typename T> vector_ref<T>::vector_ref(vector<T> &v): p{v.ptr()}, n{v.size()} {}
+  template<typename T> vector_ref<T>::vector_ref(vector<T> &v): vector_ref{v.ptr(), v.size()} {}
+  template<typename T> const_vector_ref<T>::const_vector_ref(const vector<T> &v): const_vector_ref{v.ptr(), v.size()} {}
 
-  template<typename T> const_vector_ref<T>::const_vector_ref(const vector<T> &v): p{v.ptr()}, n{v.size()} {}
+  template<typename T> vector_slice<T>::vector_slice(vector<T> &v): vector_slice{v.ptr(), 1, v.size()} {}
+  template<typename T> const_vector_slice<T>::const_vector_slice(const vector<T> &v): const_vector_slice{v.ptr(), 1, v.size()} {}
 
-  template<typename T>
-    vector_ref<T> bytes_ref::as_vector() const
-    {
-      return vector_ref<T>{(T *)ptr(), size() / (Long)sizeof(T)};
-    }
+  template<typename T> vector_ref<T> bytes_ref::as_vector() const { return {(T *)ptr(), size() / (Long)sizeof(T)}; }
 
-  template<typename T>
-    const_vector_ref<T> const_bytes_ref::as_vector() const
-    {
-      return const_vector_ref<T>{(const T *)ptr(), size() / (Long)sizeof(T)};
-    }
+  template<typename T> const_vector_ref<T> const_bytes_ref::as_vector() const { return {(const T *)ptr(), size() / (Long)sizeof(T)}; }
 
 }
 

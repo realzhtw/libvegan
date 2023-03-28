@@ -1,12 +1,12 @@
 #ifndef VEGAN_BSEARCH_H
 #define VEGAN_BSEARCH_H
 
-#include <vegan/vector_ref.h>
+#include <vegan/vector_slice.h>
 
 namespace vegan {
 
   template<typename T>
-    Long bsearch(const_vector_ref<T> v, const T &x)
+    Long bsearch(const_vector_slice<T> v, const T &x)
     {
       Long a = 0, b = v.size();
       while (a < b) {
@@ -18,7 +18,7 @@ namespace vegan {
     }
 
   template<typename C, typename T>
-    Long bsearch(const C &c, const T &x) { return bsearch(const_vector_ref{c}, x); }
+    Long bsearch(const C &c, const T &x) { return bsearch(const_vector_slice{c}, x); }
 
 }
 

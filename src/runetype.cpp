@@ -1,10 +1,11 @@
 #include <vegan/rune.h>
 #include <vegan/bsearch.h>
+#include <vegan/vector_ref.h>
 
 namespace {
   using namespace vegan;
 
-  int space2[] =
+  const int _space2[] =
   {
     0x0009, 0x000a, // tab and newline
     0x0020, 0x0020, // space 
@@ -15,12 +16,17 @@ namespace {
     0xfeff, 0xfeff, // <feff>
   };
 
+  const_vector_ref<int> space2{_space2};
+
 }
 
 namespace vegan {
 
-//  bool isspace(rune r)
-//  {
-//  }
+  bool isspace(rune r)
+  {
+    auto ss = slice(space2, 0, 2);
+    auto pos = bsearch(ss, ord(r));
+    return pos < ss.size() && rune{*ss.ptr(pos)} <= r && r <= rune{*(ss.ptr(pos)+1)};
+  }
  
 }
