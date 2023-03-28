@@ -9,6 +9,7 @@
 namespace {
   using namespace vegan;
   using namespace vegan::platform;
+  using fs::file_type;
 
   const int _file_type_map[] = {
     DT_UNKNOWN, (int)file_type::unknown,

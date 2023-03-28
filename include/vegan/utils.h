@@ -10,7 +10,7 @@ namespace vegan {
 
   inline Long abs(Long x) { return x < 0 ? -x : x; }
 
-  template<typename T> void swap(T &a, T &b) { auto x = a; a = b; b = x; }
+  template<typename T> void swap(T &a, T &b) { auto x = move(a); a = move(b); b = move(x); }
 
   template<typename T> Long size(const T &x) { return x.size(); }
   template<typename T> bool empty(const T &x) { return size(x) == 0; }

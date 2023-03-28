@@ -37,6 +37,13 @@ namespace vegan {
       const char *p = nullptr;
   };
 
+  int compare(string_ref, string_ref);
+  inline bool operator<(string_ref a, string_ref b) { return compare(a, b) < 0; }
+  inline bool operator<=(string_ref a, string_ref b) { return compare(a, b) < 1; }
+  inline bool operator>(string_ref a, string_ref b) { return compare(a, b) > 0; }
+  inline bool operator>=(string_ref a, string_ref b) { return compare(a, b) > -1; }
+  inline bool operator==(string_ref a, string_ref b) { return compare(a, b) == 0; }
+
 }
 
 #endif

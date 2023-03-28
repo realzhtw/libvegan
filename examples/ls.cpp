@@ -3,14 +3,17 @@
 #include <vegan/string_utils.h>
 #include <vegan/stdio.h>
 #include <vegan/fs.h>
+#include <vegan/sort.h>
 
 using namespace vegan;
 
 int main()
 {
-   auto l = fs::ls(".");
+   auto files = fs::ls(".");
 
-   for (const auto &s : l)
-     println(s);
-  
+   sort(files);
+
+   for (const auto &f : files)
+     if (!has_prefix(f, "."))
+       println(f);
 }

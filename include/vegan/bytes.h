@@ -28,11 +28,6 @@ namespace vegan {
       const byte &operator[](Long i) const { return *ptr(i); }
             byte &operator[](Long i)       { return *ptr(i); }
 
-      const_bytes_ref slice(Long i) const { return impl.slice(i); }
-            bytes_ref slice(Long i)       { return impl.slice(i); }
-      const_bytes_ref slice(Long i, Long n) const { return impl.slice(i, n); }
-            bytes_ref slice(Long i, Long n)       { return impl.slice(i, n); }
-
       template<typename T>
         vector_ref<T> as_vector() { return impl.as_vector<T>(); }
 

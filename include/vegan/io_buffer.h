@@ -29,7 +29,7 @@ namespace vegan {
       Long bytes_left() const { return j - i; }
       Long space_left() const { return b.size() - j; }
 
-      const_bytes_ref data() const { return b.slice(i, bytes_left()); }
+      const_bytes_ref data() const { return cut(b, i, bytes_left()); }
 
       bool empty() const { return bytes_left() == 0; }
       bool full() const { return space_left() == 0; }
