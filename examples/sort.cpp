@@ -32,8 +32,8 @@ int main()
   }
 
   for (int i = 0; i != 9; ++i) {
-    auto pos = bsearch(x, x[i]);
-    println("bsearch(", x, ", ", x[i], ") = ", pos);
+    println("bsearch(", x, ", ", i, ") = ", bsearch(x, i));
+    println("bsearch(", x, ", ", x[i], ") = ", bsearch(x, x[i]));
   }
 
   return 0;

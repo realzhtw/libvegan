@@ -18,7 +18,7 @@ namespace vegan {
     }
 
   template<typename C, typename T>
-    Long bsearch(const C &c, const T &x) { return bsearch(const_vector_slice{c}, x); }
+    Long bsearch(const C &c, const T &x) { return bsearch(const_vector_slice<T>{c}, x); }
 
 }
 

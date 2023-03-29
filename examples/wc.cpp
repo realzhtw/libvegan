@@ -8,13 +8,14 @@ int main()
   Long words = 0;
   Long runes = 0;
   rune r;
+  bool word = false;
   while (getrune(r)) {
     if (r == '\n') ++lines;
-    if (is_white_space(r)) ++words;
+    bool prev_word = word;
+    word = !is_white_space(r);
+    if (!prev_word && word) ++words;
     ++runes;
   }
-  if (!is_white_space(r))
-    ++words;
   println("lines: ", lines);
   println("words: ", words);
   println("runes: ", runes);

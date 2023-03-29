@@ -36,8 +36,9 @@ namespace {
 
   bool has_property(rune r, const_vector_ref<int> tbl)
   {
-    auto pos = bsearch(tbl, ord(r));
-    return pos < tbl.size() && (rune{tbl[pos]} == r || (pos & 1));
+    auto x = ord(r);
+    auto i = bsearch(tbl, x);
+    return i < tbl.size() && (tbl[i] == x || (i & 1));
   }
 
 }
