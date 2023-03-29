@@ -12,8 +12,9 @@ namespace vegan {
   inline bool operator==(rune a, char b) { return (int)a == b; }
   inline bool operator==(char a, rune b) { return a == (int)b; }
 
-  bool isalpha(rune);
-  bool isspace(rune);
+  bool is_white_space(rune);
+  bool is_ascii_hex_digit(rune);
+  bool is_hex_digit(rune);
 
 }
 

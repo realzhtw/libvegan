@@ -9,11 +9,13 @@ int main()
   Long runes = 0;
   rune r;
   while (getrune(r)) {
-    if (r == '\n') { println("new line: ", ord(r)); ++lines; }
-    if (isspace(r)) { println("new word: ", ord(r)); ++words; }
+    if (r == '\n') ++lines;
+    if (is_white_space(r)) ++words;
     ++runes;
   }
-  println("lines = ", lines);
-  println("words = ", words);
-  println("runes = ", runes);
+  if (!is_white_space(r))
+    ++words;
+  println("lines: ", lines);
+  println("words: ", words);
+  println("runes: ", runes);
 }
