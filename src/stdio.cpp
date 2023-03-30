@@ -19,7 +19,7 @@ namespace vegan {
   {
     Long pos = 0;
     while (pos < n) {
-      auto r = ip.read_some(p + pos, n - pos);
+      auto r = ip.read_some({p + pos, n - pos});
       if (r == 0) break;
       pos += r;
     }
@@ -28,7 +28,7 @@ namespace vegan {
 
   bool fpeek(input_port &ip, byte &b)
   {
-    if (ip.read_some(&b, 1) != 1) return false;
+    if (ip.read_some({&b, 1}) != 1) return false;
     if (!ip.unread(&b, 1)) throw io_error{};
     return true;
   }
