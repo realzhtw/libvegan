@@ -28,8 +28,8 @@ namespace vegan {
 
   bool fpeek(input_port &ip, byte &b)
   {
-    if (ip.read_some({&b, 1}) != 1) return false;
-    if (!ip.unread({&b, 1})) throw io_error{};
+    if (ip.read_some(b) != 1) return false;
+    if (!ip.unread(b)) throw io_error{};
     return true;
   }
 
