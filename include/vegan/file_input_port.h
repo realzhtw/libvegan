@@ -3,7 +3,6 @@
 
 #include <vegan/bytes_ref.h>
 #include <vegan/input_port.h>
-//#include <vegan/input_buffer.h>
 #include <vegan/io_buffer.h>
 #include <vegan/file_port.h>
 
@@ -16,7 +15,7 @@ namespace vegan {
       ~file_input_port();
 
       Long read_some(bytes_ref) override;
-      bool unread(const byte *, Long) override;
+      bool unread(const_bytes_ref) override;
 
     private:
       io_buffer buf;

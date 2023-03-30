@@ -29,7 +29,7 @@ namespace vegan {
   bool fpeek(input_port &ip, byte &b)
   {
     if (ip.read_some({&b, 1}) != 1) return false;
-    if (!ip.unread(&b, 1)) throw io_error{};
+    if (!ip.unread({&b, 1})) throw io_error{};
     return true;
   }
 
@@ -52,7 +52,7 @@ namespace vegan {
   {
     byte buf[6];
     int len = utf8::encode_rune(r, buf);
-    if (!ip.unread(buf, len)) throw io_error{};
+    if (!ip.unread({buf, len})) throw io_error{};
     return true;
   }
 

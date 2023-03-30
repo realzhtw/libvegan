@@ -27,11 +27,11 @@ namespace vegan {
     return r;
   }
 
-  bool file_input_port::unread(const byte *p, Long n)
+  bool file_input_port::unread(const_bytes_ref b)
   {
-    if (buf.rd_pos() < n) return false;
-    copy(buf.rd_ptr() - n, p, n);
-    buf.back_off(n);
+    if (buf.rd_pos() < b.size()) return false;
+    copy(buf.rd_ptr() - b.size(), b);
+    buf.back_off(b.size());
     return true;
   }
 
