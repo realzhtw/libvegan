@@ -24,7 +24,7 @@ namespace vegan {
   void file_output_port::flush()
   {
     while (!buf.empty()) {
-      auto r = f.write(buf.rd_ptr(), buf.bytes_left());
+      auto r = f.write({buf.rd_ptr(), buf.bytes_left()});
       if (r == 0) throw write_error{};
       buf.advance_rdpos(r);
     }
@@ -34,7 +34,7 @@ namespace vegan {
   Long file_output_port::write_some(const byte *p, Long n)
   {
     if (buf.empty() && n > block_size())
-      return f.write(p, block_size()); // write-through 
+      return f.write({p, block_size()}); // avoid buffer
 
     auto k = min(n, buf.space_left());
     copy(buf.wr_ptr(), p, k);
@@ -47,5 +47,5 @@ namespace vegan {
   unbuffered_file_output_port::unbuffered_file_output_port(int fd): file_port{fd} {}
   unbuffered_file_output_port::~unbuffered_file_output_port() {}
 
-  Long unbuffered_file_output_port::write_some(const byte *p, Long n) { return f.write(p, n); }
+  Long unbuffered_file_output_port::write_some(const byte *p, Long n) { return f.write({p, n}); }
 }

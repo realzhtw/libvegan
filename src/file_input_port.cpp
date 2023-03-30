@@ -15,9 +15,9 @@ namespace vegan {
       buf.reset();
 
       if (n > block_size())
-        return f.read(p, block_size()); // read-through
+        return f.read({p, block_size()}); // read-through
 
-      auto r = f.read(buf.wr_ptr(), buf.space_left());
+      auto r = f.read({buf.wr_ptr(), buf.space_left()});
       buf.advance_wrpos(r);
     }
 
