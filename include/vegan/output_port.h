@@ -7,7 +7,7 @@ namespace vegan {
 
   class output_port {
     public:
-      virtual Long write_some(const byte *, Long) = 0;
+      virtual Long write_some(const_bytes_ref) = 0;
       virtual void flush() = 0;
 
       virtual ~output_port() {}

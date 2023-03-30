@@ -31,21 +31,21 @@ namespace vegan {
     buf.reset();
   }
 
-  Long file_output_port::write_some(const byte *p, Long n)
+  Long file_output_port::write_some(const_bytes_ref b)
   {
-    if (buf.empty() && n > block_size())
-      return f.write({p, block_size()}); // avoid buffer
+    if (buf.empty() && b.size() > block_size())
+      return f.write(first_n(b, block_size())); // avoid buffer
 
-    auto k = min(n, buf.space_left());
-    copy(buf.wr_ptr(), p, k);
-    buf.advance_wrpos(k);
+    auto n = min(b.size(), buf.space_left());
+    copy(buf.wr_ptr(), first_n(b, n));
+    buf.advance_wrpos(n);
 
     if (buf.full()) flush();
-    return k;
+    return n;
   }
 
   unbuffered_file_output_port::unbuffered_file_output_port(int fd): file_port{fd} {}
   unbuffered_file_output_port::~unbuffered_file_output_port() {}
 
-  Long unbuffered_file_output_port::write_some(const byte *p, Long n) { return f.write({p, n}); }
+  Long unbuffered_file_output_port::write_some(const_bytes_ref b) { return f.write(b); }
 }

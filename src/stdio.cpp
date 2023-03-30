@@ -77,7 +77,7 @@ namespace vegan {
   {
     Long pos = 0;
     while (pos < n) {
-      auto r = op.write_some(p + pos, n - pos);
+      auto r = op.write_some({p + pos, n - pos});
       if (r == 0)
         throw io_error{};
       pos += r;

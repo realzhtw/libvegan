@@ -14,7 +14,7 @@ namespace vegan {
       explicit file_output_port(int fd);
       ~file_output_port();
 
-      Long write_some(const byte *, Long) override;
+      Long write_some(const_bytes_ref) override;
       void flush() override;
       void close() override;
     private:
@@ -29,8 +29,7 @@ namespace vegan {
       explicit unbuffered_file_output_port(int fd);
       ~unbuffered_file_output_port();
 
-      Long write_some(const byte *, Long) override;
-      //void close() override;
+      Long write_some(const_bytes_ref) override;
 
     private:
   };
