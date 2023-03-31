@@ -25,8 +25,6 @@ namespace vegan {
 
       byte &operator[](Long i) const { return *ptr(i); }
 
-      void drop_first(Long n) { impl.p += n; impl.n -= n; }
-
       template<typename T> vector_ref<T> as_vector() const;
 
       string_ref as_string() const;
@@ -51,8 +49,6 @@ namespace vegan {
       Long size() const { return impl.n; }
 
       const byte &operator[](Long i) const { return *ptr(i); }
-
-      void drop_first(Long n) { impl.p += n; impl.n -= n; }
 
       template<typename T> const_vector_ref<T> as_vector() const;
 
