@@ -44,7 +44,7 @@ namespace vegan {
     {
       dirent *pl_ent = ::readdir((DIR *)d);
       if (pl_ent == nullptr) return false;
-      e->name = string_ref{pl_ent->d_name, pl_ent->d_namlen};
+      e->name = string_ref{pl_ent->d_name};
       e->type = translate_file_type(pl_ent->d_type);
       return true;
     }
