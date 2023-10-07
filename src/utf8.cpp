@@ -38,7 +38,7 @@ namespace vegan {
     rune decode_rune(const byte *p, int n)
     {
       if (n == 0) return bad_rune;
-      if (*p < 0x80) return rune{*p};
+      if (*p < 0x80) return static_cast<rune>(*p);
 
       int len = decode_rune_length(*p);
       if (n < len) return bad_rune;
@@ -46,7 +46,7 @@ namespace vegan {
       int x = *p & (1 << 7 - n) - 1;
       for (int i = 1; i < len; ++i)
         x = x << 6 | p[i] & 0x3f;
-      return rune{x};
+      return static_cast<rune>(x);
     }
 
   }

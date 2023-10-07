@@ -27,7 +27,7 @@ namespace {
   {
     auto fts = slice(file_type_map, 0, 2);
     Long pos = bsearch(fts, platform_file_type);
-    return pos < fts.size() ? file_type{*(fts.ptr(pos) + 1)} : file_type::unknown;
+    return pos < fts.size() ? static_cast<file_type>(*(fts.ptr(pos) + 1)) : file_type::unknown;
   }
 
 }

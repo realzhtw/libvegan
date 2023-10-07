@@ -1,5 +1,5 @@
 #ifndef VEGAN_UTF8_H
-#define VEGAN_UTI8_H
+#define VEGAN_UTF8_H
 
 #include <vegan/rune.h>
 #include <vegan/types.h>

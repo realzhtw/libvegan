@@ -46,7 +46,7 @@ namespace vegan {
         new (p+i) T{x[i]};
       }
       catch(...) {
-        destroy(vector_ref{p, i});
+        destroy(vector_ref<T>{p, i});
         throw;
       }
     }
@@ -59,7 +59,7 @@ namespace vegan {
         new (p+i) T{move(x[i])};
       }
       catch(...) {
-        destroy(vector_ref{p, i});
+        destroy(vector_ref<T>{p, i});
         throw;
       }
     }

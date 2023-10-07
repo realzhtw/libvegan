@@ -5,12 +5,14 @@ namespace vegan {
 
   enum class rune: int;
 
-  const rune bad_rune = rune{-1};
+  const rune bad_rune = static_cast<rune>(-1);
 
   inline int ord(rune r) { return (int)r; }
 
   inline bool operator==(rune a, char b) { return (int)a == b; }
+  inline bool operator!=(rune a, char b) { return !(a == b); }
   inline bool operator==(char a, rune b) { return a == (int)b; }
+  inline bool operator!=(char a, rune b) { return !(a == b); }
 
   bool is_white_space(rune);
   bool is_ascii_hex_digit(rune);

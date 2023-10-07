@@ -24,7 +24,7 @@ namespace vegan {
 
       void append(const_vector_ref<T>);
       void append(vector_rv_ref<T>);
-      void append(const T &x) { append(const_vector_ref{&x, 1}); }
+      void append(const T &x) { append(const_vector_ref<T>{&x, 1}); }
       void append(T &&x) { append(vector_rv_ref<T>{&x, 1}); }
 
     private:
