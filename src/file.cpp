@@ -1,6 +1,6 @@
 #include <vegan/file.h>
 #include <vegan/io_error.h>
-#include <vegan/platform/io.h>
+#include "platform/io.h"
 
 namespace vegan {
 
@@ -12,7 +12,7 @@ namespace vegan {
 
   Long file::write(const_bytes_ref b)
   {
-    auto r = platform::write(fd(), b.ptr(), b.size());
+    auto r = platform::write_some(fd(), b);
     if (r == -1)
        throw write_error{};
     return r;

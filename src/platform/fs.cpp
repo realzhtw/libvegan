@@ -1,4 +1,5 @@
-#include <vegan/platform/fs.h>
+#include "fs.h"
+
 #include <vegan/c_string.h>
 #include <vegan/vector_ref.h>
 #include <vegan/bsearch.h>

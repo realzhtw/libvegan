@@ -2,6 +2,7 @@
 #define VEGAN_PLATFORM_IO_H
 
 #include <vegan/types.h>
+#include <vegan/bytes_ref.h>
 
 namespace vegan {
   namespace platform {
@@ -12,7 +13,9 @@ namespace vegan {
     Long get_block_size(int fd);
 
     Long read(int fd, byte *buf, Long n);
-    Long write(int fd, const byte *buf, Long n);
+
+    void write(int fd, const_bytes_ref);
+    Long write_some(int fd, const_bytes_ref);
 
   }
 }

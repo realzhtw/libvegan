@@ -16,4 +16,6 @@ int main()
    for (const auto &f : files)
      if (!has_prefix(f, "."))
        println(f);
+
+   println(files);
 }

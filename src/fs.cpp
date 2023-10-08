@@ -1,6 +1,6 @@
 #include <vegan/fs.h>
-#include <vegan/platform/fs.h>
 #include <vegan/vector_buf.h>
+#include "platform/fs.h"
 
 namespace {
   using namespace vegan;

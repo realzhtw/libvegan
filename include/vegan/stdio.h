@@ -39,8 +39,10 @@ namespace vegan {
   inline bool getbyte(byte &b) { return fgetbyte(stdin, b); }
   inline bool getrune(rune &c) { return fgetrune(stdin, c); }
 
-  void fwrite(output_port &, const byte *, Long);
-  void fwrite(output_port &, const_bytes_ref);
+  inline Long write_some(output_port &op, const_bytes_ref b) { return op.write_some(b); }
+  void write(output_port &, const_bytes_ref);
+
+  inline void fflush(output_port &op) { op.flush(); }
   void fprint(output_port &, char);
   void fprint(output_port &, rune);
   void fprint(output_port &, int);

@@ -1,7 +1,7 @@
 #include <vegan/bytes.h>
-#include <vegan/platform/alloc.h>
 #include <vegan/utils.h>
 #include <vegan/string_ref.h>
+#include "platform/alloc.h"
 
 namespace vegan {
 

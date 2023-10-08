@@ -4,12 +4,13 @@
 #include <vegan/string.h>
 #include <vegan/string_buf.h>
 #include <vegan/utf8.h>
+#include "platform/io.h"
 
 namespace vegan {
 
   file_input_port standard_input_port{0};
-  file_output_port standard_output_port{1};
-  unbuffered_file_output_port standard_error_port{2};
+  file_output_port standard_output_port{1, platform::get_block_size(1), false};
+  file_output_port standard_error_port{2, 0, false};
 
   input_port &stdin = standard_input_port;
   output_port &stdout = standard_output_port;
@@ -73,27 +74,24 @@ namespace vegan {
     return string{s.data()};
   }
 
-  void fwrite(output_port &op, const byte *p, Long n)
+  void write(output_port &op, const_bytes_ref b)
   {
-    Long pos = 0;
-    while (pos < n) {
-      auto r = op.write_some({p + pos, n - pos});
-      if (r == 0)
+    while (b.size() != 0) {
+      auto n = write_some(op, b);
+      if (n == 0)
         throw io_error{};
-      pos += r;
+      b.drop_first(n);
     }
   }
 
-  void fwrite(output_port &op, const_bytes_ref b) { fwrite(op, b.ptr(), b.size()); }
-
-  void fprint(output_port &op, char c) { fwrite(op, (const byte *)&c, 1); }
+  void fprint(output_port &op, char c) { write(op, {(const byte *)&c, 1}); }
   void fprint(output_port &op, rune r)
   {
     byte buf[6];
     utf8::encode_rune(r, buf);
-    fwrite(op, buf);
+    write(op, buf);
   }
-  void fprint(output_port &op, string_ref s) { fwrite(op, s.as_bytes()); }
+  void fprint(output_port &op, string_ref s) { write(op, s.as_bytes()); }
   void fprint(output_port &op, const char *s) { fprint(op, string_ref{s}); }
   void fprint(output_port &op, int x) { fprint(op, to_string(x)); }
   void fprint(output_port &op, long x) { fprint(op, to_string(x)); }

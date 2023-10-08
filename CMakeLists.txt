@@ -8,6 +8,7 @@ add_library(vegan
   include/vegan/bytes_ref.h
   include/vegan/c_string.h
   include/vegan/exception.h
+  include/vegan/fdport.h
   include/vegan/file.h
   include/vegan/file_input_port.h
   include/vegan/file_output_port.h
@@ -19,7 +20,6 @@ add_library(vegan
   include/vegan/memory.h
   include/vegan/output_port.h
   include/vegan/pair.h
-  include/vegan/platform
   include/vegan/rune.h
   include/vegan/slice.h
   include/vegan/sort.h
@@ -38,6 +38,7 @@ add_library(vegan
 
   src/bytes.cpp
   src/c_string.cpp
+  src/fdport.cpp
   src/file.cpp
   src/file_input_port.cpp
   src/file_output_port.cpp
@@ -51,6 +52,9 @@ add_library(vegan
   src/to_string.cpp
   src/utf8.cpp
 
+  src/platform/alloc.h
+  src/platform/fs.h
+  src/platform/io.h
   src/platform/alloc.cpp
   src/platform/fs.cpp
   src/platform/io.cpp

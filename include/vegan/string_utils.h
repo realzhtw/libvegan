@@ -8,7 +8,7 @@
 
 namespace vegan {
 
-  Long count_chars(string_ref);
+  //Long count_chars(string_ref);
 
   bool has_prefix(string_ref, string_ref);
   bool has_suffix(string_ref, string_ref);

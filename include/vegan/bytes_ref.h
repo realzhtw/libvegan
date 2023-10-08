@@ -23,6 +23,8 @@ namespace vegan {
       byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
 
+      void drop_first(Long n) { impl.p += n; impl.n -= n; }
+
       byte &operator[](Long i) const { return *ptr(i); }
 
       template<typename T> vector_ref<T> as_vector() const;
@@ -48,6 +50,8 @@ namespace vegan {
       const byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
 
+      void drop_first(Long n) { impl.p += n; impl.n -= n; }
+
       const byte &operator[](Long i) const { return *ptr(i); }
 
       template<typename T> const_vector_ref<T> as_vector() const;
@@ -65,6 +69,8 @@ namespace vegan {
   inline const_bytes_ref cut(const_bytes_ref b, Long i, Long n) { return {b.ptr(i), n}; }
   inline       bytes_ref first_n(      bytes_ref b, Long n) { return cut(b, 0, n); }
   inline const_bytes_ref first_n(const_bytes_ref b, Long n) { return cut(b, 0, n); }
+  inline       bytes_ref first_n(      bytes& b, Long n) { return first_n(      bytes_ref{b}, n); }
+  inline const_bytes_ref first_n(const bytes& b, Long n) { return first_n(const_bytes_ref{b}, n); }
 
   int compare(const_bytes_ref, const_bytes_ref);
   inline bool operator<(const_bytes_ref a, const_bytes_ref b) { return compare(a, b) < 0; }
