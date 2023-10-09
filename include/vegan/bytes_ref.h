@@ -2,6 +2,7 @@
 #define VEGAN_BYTES_REF_H
 
 #include <vegan/types.h>
+#include <vegan/utils.h>
 
 namespace vegan {
 
@@ -24,6 +25,7 @@ namespace vegan {
       Long size() const { return impl.n; }
 
       void drop_first(Long n) { impl.p += n; impl.n -= n; }
+      void crop(Long n) { impl.n = min(impl.n, n); }
 
       byte &operator[](Long i) const { return *ptr(i); }
 
@@ -51,6 +53,7 @@ namespace vegan {
       Long size() const { return impl.n; }
 
       void drop_first(Long n) { impl.p += n; impl.n -= n; }
+      void crop(Long n) { impl.n = min(impl.n, n); }
 
       const byte &operator[](Long i) const { return *ptr(i); }
 

@@ -7,6 +7,8 @@ namespace vegan {
 
   bytes::bytes(Long n)
   {
+    if (n == 0)
+      return;
     byte *p = (byte *)platform::alloc(n);
     if (p == nullptr)
       throw bad_alloc{};

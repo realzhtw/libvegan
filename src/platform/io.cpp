@@ -19,12 +19,14 @@ namespace vegan {
       return buf.st_blksize;
     }
 
-    Long read(int fd, byte *p, Long n)
+    Long read_some(int fd, bytes_ref buf)
     {
       Long r;
       do  {
-        r = ::read(fd, p, n);
+        r = ::read(fd, buf.ptr(), buf.size());
       } while (r == -1 && errno == EINTR);
+      if (r == -1)
+        throw read_error{};
       return r;
     }
 
@@ -34,17 +36,15 @@ namespace vegan {
       do {
         r = ::write(fd, b.ptr(), b.size());
       } while (r == -1 && errno == EINTR);
+      if (r == -1)
+        throw write_error{};
       return r;
     }
 
     void write(int fd, const_bytes_ref b)
     {
-      while (b.size() != 0) {
-        auto n = platform::write_some(fd, b);
-        if (n == -1)
-          throw write_error{};
-        b.drop_first(n);
-      }
+      while (b.size() != 0)
+        b.drop_first(write_some(fd, b));
     }
 
   }

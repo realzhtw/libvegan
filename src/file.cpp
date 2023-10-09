@@ -22,7 +22,7 @@ namespace vegan {
 
   Long file::read(bytes_ref b)
   {
-    auto r = platform::read(fd(), b.ptr(), b.size());
+    auto r = platform::read_some(fd(), b);
     if (r == -1)
       throw read_error{};
     return r;
