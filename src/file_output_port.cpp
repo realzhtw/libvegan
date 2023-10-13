@@ -7,7 +7,8 @@
 
 namespace vegan {
 
-  file_output_port::file_output_port(int fd, Long buffer_size, bool autoclose): fdport{fd, autoclose}, buf{buffer_size} {}
+  file_output_port::file_output_port(int fd, Long buffer_size, bool autoclose):
+    fdport{fd, autoclose}, buf{buffer_size} {}
 
   file_output_port::~file_output_port()
   {
@@ -42,8 +43,4 @@ namespace vegan {
     return n;
   }
 
-  //unbuffered_file_output_port::unbuffered_file_output_port(int fd): file_port{fd} {}
-  //unbuffered_file_output_port::~unbuffered_file_output_port() {}
-
-  //Long unbuffered_file_output_port::write_some(const_bytes_ref b) { return f.write(b); }
 }

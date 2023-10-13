@@ -19,11 +19,11 @@ namespace vegan {
       return buf.st_blksize;
     }
 
-    Long read(int fd, byte *p, Long n)
+    Long read_some(int fd, bytes_ref b)
     {
       Long r;
       do  {
-        r = ::read(fd, p, n);
+        r = ::read(fd, b.ptr(), b.size());
       } while (r == -1 && errno == EINTR);
       return r;
     }

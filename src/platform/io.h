@@ -12,7 +12,7 @@ namespace vegan {
 
     Long get_block_size(int fd);
 
-    Long read(int fd, byte *buf, Long n);
+    Long read_some(int fd, bytes_ref);
 
     void write(int fd, const_bytes_ref);
     Long write_some(int fd, const_bytes_ref);

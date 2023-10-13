@@ -81,6 +81,8 @@ namespace vegan {
 
   void copy(byte *dst, const byte *, Long);
   void copy(byte *dst, const_bytes_ref);
+  Long copy(bytes_ref dst, const byte *, Long);
+  Long copy(bytes_ref dst, const_bytes_ref);
 
 }
 

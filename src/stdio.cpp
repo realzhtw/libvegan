@@ -8,7 +8,7 @@
 
 namespace vegan {
 
-  file_input_port standard_input_port{0};
+  file_input_port standard_input_port{0, platform::get_block_size(0), false};
   file_output_port standard_output_port{1, platform::get_block_size(1), false};
   file_output_port standard_error_port{2, 0, false};
 
@@ -30,7 +30,7 @@ namespace vegan {
   bool fpeek(input_port &ip, byte &b)
   {
     if (ip.read_some(b) != 1) return false;
-    if (!ip.unread(b)) throw io_error{};
+    if (!ip.back_off(1)) throw io_error{};
     return true;
   }
 
@@ -53,7 +53,7 @@ namespace vegan {
   {
     byte buf[6];
     int len = utf8::encode_rune(r, buf);
-    if (!ip.unread({buf, len})) throw io_error{};
+    if (!ip.back_off(len)) throw io_error{};
     return true;
   }
 

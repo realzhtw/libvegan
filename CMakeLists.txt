@@ -12,7 +12,6 @@ add_library(vegan
   include/vegan/file.h
   include/vegan/file_input_port.h
   include/vegan/file_output_port.h
-  include/vegan/file_port.h
   include/vegan/fs.h
   include/vegan/input_port.h
   include/vegan/io_buffer.h
@@ -42,8 +41,8 @@ add_library(vegan
   src/file.cpp
   src/file_input_port.cpp
   src/file_output_port.cpp
-  src/file_port.cpp
   src/fs.cpp
+  src/input_port.cpp
   src/io_buffer.cpp
   src/runetype.cpp
   src/stdio.cpp

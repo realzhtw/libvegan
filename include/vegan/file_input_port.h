@@ -1,24 +1,19 @@
 #ifndef VEGAN_FILE_INPUT_PORT_H
 #define VEGAN_FILE_INPUT_PORT_H
 
-#include <vegan/bytes_ref.h>
+#include <vegan/bytes.h>
 #include <vegan/input_port.h>
-#include <vegan/io_buffer.h>
-#include <vegan/file_port.h>
+#include <vegan/fdport.h>
 
 namespace vegan {
 
-  class file_input_port: public file_port, public input_port {
+  class file_input_port: public fdport, public input_port {
     public:
       file_input_port() {}
-      explicit file_input_port(int fd, int lookahead = 0);
+      explicit file_input_port(int fd, Long block_size, bool autoclose);
       ~file_input_port();
 
-      Long read_some(bytes_ref) override;
-      bool unread(const_bytes_ref) override;
-
-    private:
-      io_buffer buf;
+      Long backend_read_some(bytes_ref) override;
   };
 
 }

@@ -54,7 +54,7 @@ namespace vegan {
     void fprint(output_port &op, const_vector_ref<T> x)
     {
       fprint(op, '[');
-      if (!empty(x)) fprint(op, x[0]);
+      if (x.size() != 0) fprint(op, x[0]);
       for (Long i = 1; i < x.size(); ++i)
         fprint(op, ' ', x[i]);
       fprint(op, ']');

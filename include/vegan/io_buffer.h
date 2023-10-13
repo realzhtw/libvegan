@@ -14,17 +14,17 @@ namespace vegan {
       void resize(Long n);
 
       Long size() const { return b.size(); }
-      Long rd_pos() const { return i; }
-      Long wr_pos() const { return j; }
+      Long rdpos() const { return i; }
+      Long wrpos() const { return j; }
 
-      byte *rd_ptr() { return b.ptr(rd_pos()); }
-      byte *wr_ptr() { return b.ptr(wr_pos()); }
+      byte *rdptr() { return b.ptr(rdpos()); }
+      byte *wrptr() { return b.ptr(wrpos()); }
 
       void advance_rdpos(Long n) { i += n; }
-      void back_off(Long n)      { i -= n; }
+      void backoff_rdpos(Long n) { i -= n; }
       void advance_wrpos(Long n) { j += n; }
 
-      void reset() { copy(b.ptr(), data()); i = j = 0; }
+      void reset(int keep = 0);
 
       Long bytes_left() const { return j - i; }
       Long space_left() const { return b.size() - j; }
