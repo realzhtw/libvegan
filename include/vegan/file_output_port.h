@@ -14,12 +14,8 @@ namespace vegan {
       explicit file_output_port(int fd, Long buffer_size, bool autoclose);
       ~file_output_port();
 
-      Long write_some(const_bytes_ref) override;
-      void flush() override;
+      Long backend_write_some(const_bytes_ref) override;
       void close() override;
-    private:
-      bytes buf;
-      Long buf_wrpos = 0;
   };
 
   file_output_port open_output_file(string_ref path);

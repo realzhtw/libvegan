@@ -9,7 +9,6 @@ add_library(vegan
   include/vegan/c_string.h
   include/vegan/exception.h
   include/vegan/fdport.h
-  include/vegan/file.h
   include/vegan/file_input_port.h
   include/vegan/file_output_port.h
   include/vegan/fs.h
@@ -38,12 +37,12 @@ add_library(vegan
   src/bytes.cpp
   src/c_string.cpp
   src/fdport.cpp
-  src/file.cpp
   src/file_input_port.cpp
   src/file_output_port.cpp
   src/fs.cpp
   src/input_port.cpp
   src/io_buffer.cpp
+  src/output_port.cpp
   src/runetype.cpp
   src/stdio.cpp
   src/string.cpp

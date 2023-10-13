@@ -25,6 +25,8 @@ namespace vegan {
       do  {
         r = ::read(fd, b.ptr(), b.size());
       } while (r == -1 && errno == EINTR);
+      if (r == -1)
+        throw read_error{};
       return r;
     }
 
@@ -34,18 +36,9 @@ namespace vegan {
       do {
         r = ::write(fd, b.ptr(), b.size());
       } while (r == -1 && errno == EINTR);
+      if (r == -1)
+        throw write_error{};
       return r;
     }
-
-    void write(int fd, const_bytes_ref b)
-    {
-      while (b.size() != 0) {
-        auto n = platform::write_some(fd, b);
-        if (n == -1)
-          throw write_error{};
-        b.drop_first(n);
-      }
-    }
-
   }
 }

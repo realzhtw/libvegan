@@ -10,6 +10,7 @@ namespace vegan {
     public:
       explicit input_port(Long block_size = 0);
       virtual ~input_port() {}
+
       virtual Long backend_read_some(bytes_ref) = 0;
 
       Long read_some(bytes_ref dst) { return ibuf.size() == 0 ? backend_read_some(dst) : buffered_read_some(dst); }
