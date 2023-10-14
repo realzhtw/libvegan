@@ -4,15 +4,23 @@
 
 namespace vegan {
 
+  string::string(Long n): impl{n+1} {}
+
   string::string(const char *s): string{s, c_string_length(s)} {}
 
-  string::string(const char *p, Long n): impl{n+1}
+  string::string(const char *p, Long n): string{n}
   {
-    copy(impl.ptr(), reinterpret_cast<const byte *>(p), n);
+    copy(impl.ptr(), string_ref{p, n}.as_bytes());
     impl[n] = '\0';
   }
 
-  string::string(string_ref s): string{s.ptr(), s.size()} {}
+  string operator+(string_ref a, string_ref b)
+  {
+    string s{a.size() + b.size()};
+    copy(s.as_bytes().ptr(), a.as_bytes());
+    copy(s.as_bytes().ptr(a.size()), b.as_bytes());
+    return s;
+  }
 
   string_ref::string_ref(const char *s): string_ref{s, c_string_length(s)} {}
 

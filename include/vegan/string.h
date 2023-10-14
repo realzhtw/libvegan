@@ -8,10 +8,11 @@ namespace vegan {
 
   class string {
     public:
-      string() {}
+      string(): string("") {}
+      explicit string(Long);
       string(const char *);
       explicit string(const char *, Long n);
-      explicit string(string_ref s);
+      explicit string(string_ref s): string{s.ptr(), s.size()} {}
       string(const string &s): string{s.ptr(), s.size()} {}
       string(string &&s): impl{move(s.impl)} {}
 
@@ -21,7 +22,7 @@ namespace vegan {
             char *ptr()       { return (char *)impl.ptr(); }
       const char *ptr() const { return (char *)impl.ptr(); }
 
-      Long size() const { return impl.size(); }
+      Long size() const { return impl.size() - 1; }
 
             bytes_ref as_bytes()       { return impl; }
       const_bytes_ref as_bytes() const { return impl; }
@@ -29,6 +30,8 @@ namespace vegan {
     private:
       bytes impl;
   };
+
+  string operator+(string_ref, string_ref);
 
   string to_string(short);
   string to_string(unsigned short);

@@ -17,8 +17,6 @@ namespace vegan {
       void flush();
 
     private:
-
-    private:
       output_buffer obuf;
   };
 

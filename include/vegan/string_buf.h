@@ -24,7 +24,7 @@ namespace vegan {
 
     private:
       bytes b;
-      Long  i;
+      Long  i = 0;
   };
 
 }

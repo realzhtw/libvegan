@@ -71,13 +71,18 @@ namespace vegan {
       fprint(op, y, rest...);
     }
 
+  inline void fprintln(output_port &op) { fprint(op, '\n'); }
+
+  template<typename T, typename... Args>
+    void fprintln(output_port &op, const T &x, const Args &... rest) { fprint(op, x); fprintln(op, rest...); }
+
   template<typename... Args>
     void print(const Args &... args) { fprint(stdout, args...); }
 
   inline void println() { print('\n'); }
 
   template<typename T>
-    void println(const T &x) { print(x); print('\n'); }
+    void println(const T &x) { print(x); println(); }
 
   template<typename T, typename... Args>
     void println(const T &x, const Args &... rest) { print(x); println(rest...); }
