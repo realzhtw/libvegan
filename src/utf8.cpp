@@ -5,7 +5,7 @@ namespace vegan {
 
     int rune_length(rune r)
     {
-      auto x = static_cast<int>(r);
+      auto x = ord(r);
       return x <       0x80 ? 1 :
              x <      0x800 ? 2 :
              x <    0x10000 ? 3 :
@@ -16,7 +16,7 @@ namespace vegan {
 
     int encode_rune(rune r, bytes_ref b)
     {
-      auto x = static_cast<int>(r);
+      auto x = ord(r);
       if (x < 0x80)  { b[0] = x; return 1; }
       int n = rune_length(r);
       b[0] = x >> (n - 1) * 5 & (1 << 7 - n) - 1;
@@ -38,7 +38,7 @@ namespace vegan {
     rune decode_rune(const byte *p, int n)
     {
       if (n == 0) return bad_rune;
-      if (*p < 0x80) return static_cast<rune>(*p);
+      if (*p < 0x80) return rune{*p};
 
       int len = decode_rune_length(*p);
       if (n < len) return bad_rune;
@@ -46,7 +46,7 @@ namespace vegan {
       int x = *p & (1 << 7 - n) - 1;
       for (int i = 1; i < len; ++i)
         x = x << 6 | p[i] & 0x3f;
-      return static_cast<rune>(x);
+      return rune{x};
     }
 
   }

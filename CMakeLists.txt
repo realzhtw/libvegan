@@ -64,3 +64,5 @@ target_include_directories(vegan
 )
 
 add_subdirectory(examples)
+add_subdirectory(extern)
+add_subdirectory(tests)

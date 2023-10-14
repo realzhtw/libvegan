@@ -3,15 +3,20 @@
 
 namespace vegan {
 
-  enum class rune: int;
+  struct rune {
+    int rep = -1;
+    rune() {}
+    rune(char c): rep{c} {}
+    explicit rune(int c): rep{c} {}
+  };
 
-  const rune bad_rune = static_cast<rune>(-1);
+  const auto bad_rune = rune{-1};
 
-  inline int ord(rune r) { return (int)r; }
+  inline int ord(rune r) { return r.rep; }
 
-  inline bool operator==(rune a, char b) { return (int)a == b; }
+  inline bool operator==(rune a, char b) { return ord(a) == b; }
   inline bool operator!=(rune a, char b) { return !(a == b); }
-  inline bool operator==(char a, rune b) { return a == (int)b; }
+  inline bool operator==(char a, rune b) { return a == ord(b); }
   inline bool operator!=(char a, rune b) { return !(a == b); }
 
   bool is_white_space(rune);
