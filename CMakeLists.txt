@@ -16,6 +16,7 @@ add_library(vegan
   include/vegan/io_buffer.h
   include/vegan/io_error.h
   include/vegan/memory.h
+  include/vegan/output_buffer.h
   include/vegan/output_port.h
   include/vegan/pair.h
   include/vegan/rune.h

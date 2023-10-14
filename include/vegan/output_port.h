@@ -2,7 +2,7 @@
 #define VEGAN_OUTPUT_PORT_H
 
 #include <vegan/bytes_ref.h>
-#include <vegan/io_buffer.h>
+#include <vegan/output_buffer.h>
 
 namespace vegan {
 
@@ -13,14 +13,13 @@ namespace vegan {
 
       virtual Long backend_write_some(const_bytes_ref) = 0;
 
-      Long write_some(const_bytes_ref src) { return obuf.size() == 0 ? backend_write_some(src) : buffered_write_some(src); }
+      Long write_some(const_bytes_ref src);
       void flush();
 
     private:
-      Long buffered_write_some(const_bytes_ref);
 
     private:
-      io_buffer obuf;
+      output_buffer obuf;
   };
 
 }

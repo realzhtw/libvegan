@@ -1,5 +1,4 @@
 #include <vegan/output_port.h>
-#include <vegan/utils.h>
 
 namespace vegan {
 
@@ -7,24 +6,22 @@ namespace vegan {
 
   void output_port::flush()
   {
-    while (!obuf.empty()) {
-      auto n = backend_write_some(obuf.data());
-      obuf.advance_rdpos(n);
-    }
+    auto data = obuf.data();
+    while (data.size() > 0)
+      data.drop_first(backend_write_some(data));
     obuf.reset();
   }
 
-  Long output_port::buffered_write_some(const_bytes_ref src)
+  Long output_port::write_some(const_bytes_ref src)
   {
+    if (obuf.size() == 0)
+      return backend_write_some(src);
+
     if (obuf.empty() && src.size() > obuf.size())
       return backend_write_some(first_n(src, obuf.size())); // avoid buffer
 
-    auto n = min(src.size(), obuf.space_left());
-    copy(obuf.wrptr(), first_n(src, n));
-    obuf.advance_wrpos(n);
-
+    auto n = obuf.write_some(src);
     if (obuf.full()) flush();
-
     return n;
   }
 

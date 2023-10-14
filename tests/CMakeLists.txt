@@ -5,12 +5,15 @@ enable_testing()
 
 include(GoogleTest)
 
-add_executable(utf8_test
-  utf8.cpp
-)
-target_link_libraries(utf8_test
-  vegan
-  GTest::gtest_main
-)
+foreach(TEST utf8 output_buffer)
+  add_executable(${TEST}_test
+    ${TEST}.cpp
+  )
 
-gtest_discover_tests(utf8_test)
+  target_link_libraries(${TEST}_test
+    vegan
+    GTest::gtest_main
+  )
+
+  gtest_discover_tests(${TEST}_test)
+endforeach()
