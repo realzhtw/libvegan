@@ -80,31 +80,27 @@ namespace vegan {
     }
 
   template<typename T> class vector;
-  template<typename T> void fprint(output_port &op, const vector<T> &x) { fprint(op, const_vector_ref<T>{x}); }
 
+  template<typename T>
+    void fprint(output_port &op, const vector<T> &x) { fprint(op, const_vector_ref<T>{x}); }
 
-  template<typename T, typename U, typename... Args>
-    void fprint(output_port &op, const T &x, const U &y, const Args &... rest)
-    {
-      fprint(op, x);
-      fprint(op, y, rest...);
-    }
-
-  inline void fprintln(output_port &op) { fprint(op, '\n'); }
+  inline void fprint(output_port &) {}
 
   template<typename T, typename... Args>
-    void fprintln(output_port &op, const T &x, const Args &... rest) { fprint(op, x); fprintln(op, rest...); }
+    void fprint(output_port &op, const T &x, const Args &... rest)
+    {
+      fprint(op, x);
+      fprint(op, rest...);
+    }
+
+  template<typename... Args>
+    void fprintln(output_port &op, const Args &... args) { fprint(op, args...); fprint(op, '\n'); }
 
   template<typename... Args>
     void print(const Args &... args) { fprint(current_output_port(), args...); }
 
-  inline void println() { print('\n'); }
-
-  template<typename T>
-    void println(const T &x) { print(x); println(); }
-
-  template<typename T, typename... Args>
-    void println(const T &x, const Args &... rest) { print(x); println(rest...); }
+  template<typename... Args>
+    void println(const Args &... args) { fprintln(current_output_port(), args...); }
 
 }
 
