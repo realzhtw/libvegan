@@ -91,8 +91,8 @@ namespace vegan {
   void fprint(output_port &op, rune r)
   {
     byte buf[6];
-    utf8::encode_rune(r, buf);
-    write(op, buf);
+    auto n = utf8::encode_rune(r, buf);
+    write(op, first_n(buf, n));
   }
   void fprint(output_port &op, string_ref s) { write(op, s.as_bytes()); }
   void fprint(output_port &op, const char *s) { fprint(op, string_ref{s}); }

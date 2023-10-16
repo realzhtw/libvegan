@@ -73,6 +73,11 @@ namespace vegan {
   inline       bytes_ref first_n(      bytes& b, Long n) { return first_n(      bytes_ref{b}, n); }
   inline const_bytes_ref first_n(const bytes& b, Long n) { return first_n(const_bytes_ref{b}, n); }
 
+  template<Long N>
+    bytes_ref first_n(byte (&b)[N], Long n) { return first_n(bytes_ref{b}, n); }
+  template<Long N>
+    const_bytes_ref first_n(const byte (&b)[N], Long n) { return first_n(const_bytes_ref{b}, n); }
+
   int compare(const_bytes_ref, const_bytes_ref);
   inline bool operator<(const_bytes_ref a, const_bytes_ref b) { return compare(a, b) < 0; }
   inline bool operator<=(const_bytes_ref a, const_bytes_ref b) { return compare(a, b) < 1; }
