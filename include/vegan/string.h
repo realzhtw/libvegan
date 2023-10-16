@@ -12,7 +12,7 @@ namespace vegan {
       explicit string(Long);
       string(const char *);
       explicit string(const char *, Long n);
-      explicit string(string_ref s): string{s.ptr(), s.size()} {}
+      string(string_ref s): string{s.ptr(), s.size()} {}
       string(const string &s): string{s.ptr(), s.size()} {}
       string(string &&s): impl{move(s.impl)} {}
 

@@ -25,6 +25,7 @@ add_library(vegan
   include/vegan/rune.h
   include/vegan/slice.h
   include/vegan/sort.h
+  include/vegan/stack.h
   include/vegan/stdio.h
   include/vegan/string.h
   include/vegan/string_buf.h

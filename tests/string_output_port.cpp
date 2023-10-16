@@ -19,4 +19,11 @@ namespace {
     EXPECT_EQ(p.data(), quote + "\n" + author + "\n");
   }
 
+  TEST(string_output_port, with_output_to_string)
+  {
+    string_ref quote = "Emacs is written in Lisp";
+    auto s = with_output_to_string([&] { println(quote); });
+    EXPECT_EQ(s, quote + "\n");
+  }
+
 }

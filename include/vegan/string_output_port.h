@@ -3,6 +3,7 @@
 
 #include <vegan/output_port.h>
 #include <vegan/string_buf.h>
+#include <vegan/string.h>
 
 namespace vegan {
 
@@ -16,6 +17,15 @@ namespace vegan {
     private:
       string_buf strbuf;
   };
+
+  template<typename F>
+    string with_output_to_string(F &&f)
+    {
+      string_output_port p;
+      with_output_to(p, f);
+      return p.data();
+    }
+
 }
 
 #endif

@@ -16,6 +16,9 @@ namespace vegan {
   output_port &stdout = standard_output_port;
   output_port &stderr = standard_error_port;
 
+  stack<input_port *> _input_ports{const_vector_ref<input_port *>{&standard_input_port}};
+  stack<output_port *> _output_ports{const_vector_ref<output_port *>{&standard_output_port}};
+
   Long fread(input_port &ip, byte *p, Long n)
   {
     Long pos = 0;
@@ -29,7 +32,7 @@ namespace vegan {
 
   bool fpeek(input_port &ip, byte &b)
   {
-    if (ip.read_some(b) != 1) return false;
+    if (ip.read_some({&b, 1}) != 1) return false;
     if (!ip.back_off(1)) throw io_error{};
     return true;
   }

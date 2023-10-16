@@ -27,6 +27,8 @@ namespace vegan {
       void append(const T &x) { append(const_vector_ref<T>{&x, 1}); }
       void append(T &&x) { append(vector_rv_ref<T>{&x, 1}); }
 
+      void drop_last(Long n = 1) { destroy(ptr(i - n), n); i -= n; }
+
     private:
       bytes b;
       Long  i = 0;

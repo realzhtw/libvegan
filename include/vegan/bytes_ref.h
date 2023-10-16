@@ -16,9 +16,10 @@ namespace vegan {
     public:
       bytes_ref() {}
       bytes_ref(bytes &b);
-      bytes_ref(byte& b): impl{&b, 1} {}
+      explicit bytes_ref(byte& b): impl{&b, 1} {}
       bytes_ref(byte *p, Long n): impl{p, n} {}
       template<Long n> bytes_ref(byte (&b)[n]): impl{b, n} {}
+      bytes_ref(const bytes_ref &b): impl{b.ptr(), b.size()} {}
 
       byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
@@ -42,7 +43,7 @@ namespace vegan {
     public:
       const_bytes_ref() {}
       const_bytes_ref(const bytes &b);
-      const_bytes_ref(const byte &b): impl{&b, 1} {}
+      explicit const_bytes_ref(const byte &b): impl{&b, 1} {}
       const_bytes_ref(const byte *p, Long n): impl{p, n} {}
       template<Long n> const_bytes_ref(const byte (&b)[n]): impl{b, n} {}
       const_bytes_ref(const bytes_ref &b): impl{b.ptr(), b.size()} {}

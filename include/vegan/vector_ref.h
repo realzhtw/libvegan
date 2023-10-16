@@ -10,6 +10,7 @@ namespace vegan {
 
   template<typename T> class vector_ref_base {
     public:
+      vector_ref_base() {}
       vector_ref_base(T *p, Long n): p{p}, n{n} {}
 
       T *ptr(Long i = 0) const { return p + i; }
@@ -29,7 +30,9 @@ namespace vegan {
       vector_ref() {}
       template<Long n> vector_ref(T (&x)[n]): vector_ref_base<T>{x, n} {}
       vector_ref(T *p, Long n): vector_ref_base<T>{p, n} {}
+      vector_ref(const vector_ref<T> &x): vector_ref_base<T>{x.ptr(), x.size()} {}
       vector_ref(vector<T> &);
+      explicit vector_ref(T &x): vector_ref_base<T>{&x, 1} {}
   };
 
   template<typename T> class const_vector_ref: public vector_ref_base<const T> {
@@ -37,14 +40,16 @@ namespace vegan {
       const_vector_ref() {}
       template<Long n> const_vector_ref(const T (&x)[n]): vector_ref_base<const T>{x, n} {}
       const_vector_ref(const T *p, Long n): vector_ref_base<const T>{p, n} {}
-      const_vector_ref(vector_ref<T> x): vector_ref_base<const T>{x.ptr(), x.size()} {}
+      const_vector_ref(const vector_ref<T> &x): vector_ref_base<const T>{x.ptr(), x.size()} {}
       const_vector_ref(const vector<T> &);
+      explicit const_vector_ref(const T &x): vector_ref_base<const T>{&x, 1} {}
   };
 
   template<typename T> class vector_rv_ref: public vector_ref_base<T> {
     public:
       vector_rv_ref(T *p, Long n): vector_ref_base<T>{p, n} {}
       vector_rv_ref(vector<T> &&v): vector_ref_base<T>{v.ptr(), v.size()} {}
+      explicit vector_rv_ref(T &&x): vector_ref_base<T>{&x, 1} {}
   };
 
   template<typename T>

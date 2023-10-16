@@ -5,6 +5,7 @@
 #include <vegan/rune.h>
 #include <vegan/io_error.h>
 #include <vegan/vector_ref.h>
+#include <vegan/stack.h>
 #include <vegan/input_port.h>
 #include <vegan/output_port.h>
 
@@ -14,8 +15,26 @@ namespace vegan {
   extern output_port &stdout;
   extern output_port &stderr;
 
-  input_port &current_input_port();
-  output_port &current_output_port();
+  extern stack<input_port *> _input_ports;
+  extern stack<output_port *> _output_ports;
+
+  inline input_port &current_input_port() { return *_input_ports.top(); }
+  inline output_port &current_output_port() { return *_output_ports.top(); }
+
+  struct current_input_port_guard {
+      explicit current_input_port_guard(input_port &p) { _input_ports.push(&p); }
+      ~current_input_port_guard() { _input_ports.pop(); }
+  };
+  struct current_output_port_guard {
+      explicit current_output_port_guard(output_port &p) { _output_ports.push(&p); }
+      ~current_output_port_guard() { _output_ports.pop(); }
+  };
+
+  template<typename F>
+    void with_input_from(input_port &p, F &f) { current_input_port_guard g{p}; f(); }
+
+  template<typename F>
+    void with_output_to(output_port &p, F &f) { current_output_port_guard g{p}; f(); }
 
   class string;
   class string_ref;
@@ -35,9 +54,9 @@ namespace vegan {
 
   string fgetline(input_port &, Long maxlen = 0);
 
-  inline bool peek(rune &c) { return fpeek(stdin, c); }
-  inline bool getbyte(byte &b) { return fgetbyte(stdin, b); }
-  inline bool getrune(rune &c) { return fgetrune(stdin, c); }
+  inline bool peek(rune &c) { return fpeek(current_input_port(), c); }
+  inline bool getbyte(byte &b) { return fgetbyte(current_input_port(), b); }
+  inline bool getrune(rune &c) { return fgetrune(current_input_port(), c); }
 
   inline Long write_some(output_port &op, const_bytes_ref b) { return op.write_some(b); }
   void write(output_port &, const_bytes_ref);
@@ -77,7 +96,7 @@ namespace vegan {
     void fprintln(output_port &op, const T &x, const Args &... rest) { fprint(op, x); fprintln(op, rest...); }
 
   template<typename... Args>
-    void print(const Args &... args) { fprint(stdout, args...); }
+    void print(const Args &... args) { fprint(current_output_port(), args...); }
 
   inline void println() { print('\n'); }
 
