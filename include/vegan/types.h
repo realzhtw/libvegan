@@ -19,7 +19,10 @@ namespace vegan {
   template<typename T> struct remove_const<const T> { typedef T type; };
   template<typename T> using remove_const_t = typename remove_const<T>::type;
 
-  template<typename T> remove_reference_t<T> &&move(T &&x) { return static_cast<remove_reference_t<T> &&>(x); }
+  template<typename T> remove_reference_t<T> &&move(T &&x) noexcept { return static_cast<remove_reference_t<T> &&>(x); }
+
+  template<typename T> T &&forward(remove_reference_t<T> &x) noexcept { return static_cast<remove_reference_t<T> &&>(x); }
+  template<typename T> T &&forward(remove_reference_t<T> &&x) noexcept { return static_cast<remove_reference_t<T> &&>(x); }
 
   template<typename T> class vector_ref;
   template<typename T> class vector_rv_ref;
