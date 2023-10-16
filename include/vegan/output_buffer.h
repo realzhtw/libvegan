@@ -11,7 +11,6 @@ namespace vegan {
       explicit output_buffer(Long n = 0): b{n} {}
 
       const_bytes_ref data() const { return first_n(b, wrpos); }
-      byte *wrptr() { return b.ptr(wrpos); }
 
       Long size() const { return b.size(); }
       Long space_left() const { return size() - wrpos; }
@@ -30,7 +29,7 @@ namespace vegan {
   inline Long output_buffer::write_some(const_bytes_ref src)
   {
     auto n = min(src.size(), space_left());
-    copy(wrptr(), first_n(src, n));
+    copy(b.ptr(wrpos), first_n(src, n));
     wrpos += n;
     return n;
   }
