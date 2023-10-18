@@ -57,10 +57,6 @@ namespace vegan {
   template<typename T> vector_slice<T>::vector_slice(vector<T> &v): vector_slice{v.ptr(), 1, v.size()} {}
   template<typename T> const_vector_slice<T>::const_vector_slice(const vector<T> &v): const_vector_slice{v.ptr(), 1, v.size()} {}
 
-  template<typename T> vector_ref<T> bytes_ref::as_vector() const { return {(T *)ptr(), size() / (Long)sizeof(T)}; }
-
-  template<typename T> const_vector_ref<T> const_bytes_ref::as_vector() const { return {(const T *)ptr(), size() / (Long)sizeof(T)}; }
-
 }
 
 #endif
