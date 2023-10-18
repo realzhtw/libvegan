@@ -84,13 +84,11 @@ namespace vegan {
   template<typename T>
     void fprint(output_port &op, const vector<T> &x) { fprint(op, const_vector_ref<T>{x}); }
 
-  inline void fprint(output_port &) {}
-
-  template<typename T, typename... Args>
-    void fprint(output_port &op, const T &x, const Args &... rest)
+  template<typename T, typename U, typename... Args>
+    void fprint(output_port &op, const T &x, const U &y, const Args &... rest)
     {
       fprint(op, x);
-      fprint(op, rest...);
+      fprint(op, y, rest...);
     }
 
   template<typename... Args>

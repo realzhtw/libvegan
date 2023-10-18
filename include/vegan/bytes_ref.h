@@ -2,6 +2,7 @@
 #define VEGAN_BYTES_REF_H
 
 #include <vegan/types.h>
+#include <vegan/utils.h>
 
 namespace vegan {
 
@@ -66,8 +67,14 @@ namespace vegan {
       } impl;
   };
 
-  inline       bytes_ref cut(      bytes_ref b, Long i, Long n) { return {b.ptr(i), n}; }
-  inline const_bytes_ref cut(const_bytes_ref b, Long i, Long n) { return {b.ptr(i), n}; }
+  inline       bytes_ref cut(      bytes_ref b, Long i) { return {b.ptr(i), b.size() - i}; }
+  inline const_bytes_ref cut(const_bytes_ref b, Long i) { return {b.ptr(i), b.size() - i}; }
+  inline       bytes_ref cut(      bytes& b, Long i) { return cut(      bytes_ref{b}, i); }
+  inline const_bytes_ref cut(const bytes& b, Long i) { return cut(const_bytes_ref{b}, i); }
+  inline       bytes_ref cut(      bytes_ref b, Long i, Long n) { return {b.ptr(i), min(n, b.size() - i)}; }
+  inline const_bytes_ref cut(const_bytes_ref b, Long i, Long n) { return {b.ptr(i), min(n, b.size() - i)}; }
+  inline       bytes_ref cut(      bytes& b, Long i, Long n) { return cut(      bytes_ref{b}, i, n); }
+  inline const_bytes_ref cut(const bytes& b, Long i, Long n) { return cut(const_bytes_ref{b}, i, n); }
   inline       bytes_ref first_n(      bytes_ref b, Long n) { return cut(b, 0, n); }
   inline const_bytes_ref first_n(const_bytes_ref b, Long n) { return cut(b, 0, n); }
   inline       bytes_ref first_n(      bytes& b, Long n) { return first_n(      bytes_ref{b}, n); }

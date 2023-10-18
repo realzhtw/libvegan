@@ -3,6 +3,7 @@
 
 #include <vegan/types.h>
 #include <vegan/vector_slice.h>
+#include <vegan/utils.h>
 
 namespace vegan {
 
@@ -52,28 +53,23 @@ namespace vegan {
       explicit vector_rv_ref(T &&x): vector_ref_base<T>{&x, 1} {}
   };
 
-  template<typename T>
-    vector_ref<T> cut(vector_ref<T> v, Long i, Long n) { return {v.ptr(i), n}; }
-  template<typename T>
-    const_vector_ref<T> cut(const_vector_ref<T> v, Long i, Long n) { return {v.ptr(i), n}; }
+  template<typename T>       vector_ref<T> cut(      vector_ref<T> v, Long i) { return {v.ptr(i), v.size() - i}; }
+  template<typename T> const_vector_ref<T> cut(const_vector_ref<T> v, Long i) { return {v.ptr(i), v.size() - i}; }
+
+  template<typename T>       vector_ref<T> cut(      vector_ref<T> v, Long i, Long n) { return {v.ptr(i), min(n, v.size() - i)}; }
+  template<typename T> const_vector_ref<T> cut(const_vector_ref<T> v, Long i, Long n) { return {v.ptr(i), min(n, v.size() - i)}; }
+
+  template<typename T>       vector_ref<T> first_n(      vector_ref<T> v, Long n) { return cut(v, 0, n); }
+  template<typename T> const_vector_ref<T> first_n(const_vector_ref<T> v, Long n) { return cut(v, 0, n); }
+
+  template<typename T>       vector_ref<T> last_n(      vector_ref<T> v, Long n) { return cut(v, max(v.size() - n, 0)); }
+  template<typename T> const_vector_ref<T> last_n(const_vector_ref<T> v, Long n) { return cut(v, max(v.size() - n, 0)); }
+
+  template<typename T> vector_slice<T>::vector_slice(vector_ref<T> x): vector_slice{x.ptr(), 1, x.size()} {}
+  template<typename T> const_vector_slice<T>::const_vector_slice(const_vector_ref<T> x): const_vector_slice{x.ptr(), 1, x.size()} {}
 
   template<typename T>
-    vector_ref<T> first_n(vector_ref<T> v, Long n) { return cut(v, 0, n); }
-  template<typename T>
-    const_vector_ref<T> first_n(const_vector_ref<T> v, Long n) { return cut(v, 0, n); }
-
-  template<typename T>
-    vector_ref<T> last_n(vector_ref<T> v, Long n) { return cut(v, v.size() - n, n); }
-  template<typename T>
-    const_vector_ref<T> last_n(const_vector_ref<T> v, Long n) { return cut(v, v.size() - n, n); }
-
-  template<typename T>
-    vector_slice<T>::vector_slice(vector_ref<T> x): vector_slice{x.ptr(), 1, x.size()} {}
-  template<typename T>
-    const_vector_slice<T>::const_vector_slice(const_vector_ref<T> x): const_vector_slice{x.ptr(), 1, x.size()} {}
-
-  template<typename T>
-    vector_slice<T> slice(vector_ref<T> v, Long i, Long s) { return vector_slice<T>{v.ptr(i), s, (v.size()-i)/s}; }
+          vector_slice<T> slice(      vector_ref<T> v, Long i, Long s) { return       vector_slice<T>{v.ptr(i), s, (v.size()-i)/s}; }
   template<typename T>
     const_vector_slice<T> slice(const_vector_ref<T> v, Long i, Long s) { return const_vector_slice<T>{v.ptr(i), s, (v.size()-i)/s}; }
 

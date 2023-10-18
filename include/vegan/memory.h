@@ -6,18 +6,27 @@
 
 namespace vegan {
 
-  template<typename T> void initialize(vector_ref<T>);
-  template<typename T> void initialize(vector_ref<T>, const T &);
-  template<typename T> void initialize(T *, const_vector_ref<T>);
-  template<typename T> void initialize(T *, vector_rv_ref<T>);
-  template<typename T> void destroy(T *, Long n);
+  void *alloc(size_t n, size_t alignment = 1);
+  void free(void *);
+
+  template<typename T, typename... Args> void initialize(T *p, Args &&... args);
+  template<typename T, typename... Args> void initialize(vector_ref<T>, Args &&... args);
+  template<typename T> Long initialize(vector_ref<T>, const_vector_ref<T>);
+  template<typename T> Long initialize(vector_ref<T>, vector_rv_ref<T>);
+
+  template<typename T> void destroy(T *p) { p->~T(); }
   template<typename T> void destroy(vector_ref<T>);
 
-  template<typename T> void initialize(vector_ref<T> x)
+  template<typename T, typename... Args> void initialize(T *p, Args &&... args)
+  {
+    new (p) T{forward<Args>(args)...};
+  }
+
+  template<typename T, typename... Args> void initialize(vector_ref<T> x, Args &&...args)
   {
     for (Long i = 0; i != x.size(); ++i) {
       try {
-        new (x.ptr(i)) T{};
+        initialize(x.ptr(i), forward<T>(args)...);
       }
       catch(...) {
         destroy(first_n(x, i));
@@ -26,52 +35,41 @@ namespace vegan {
     }
   }
 
-  template<typename T> void initialize(vector_ref<T> v, const T &x)
+  template<typename T> Long initialize(vector_ref<T> x, const_vector_ref<T> y)
   {
-    for (Long i = 0; i != v.size(); ++i) {
+    auto n = min(x.size(), y.size());
+    for (Long i = 0; i != n; ++i) {
       try {
-        new (v.ptr(i)) T{x};
+	initialize(x.ptr(i), y[i]);
       }
       catch(...) {
-        destroy(first_n(v, i));
+        destroy(first_n(x, i));
         throw;
       }
     }
+    return n;
   }
 
-  template<typename T> void initialize(T *p, const_vector_ref<T> x)
+  template<typename T> Long initialize(vector_ref<T> x, vector_rv_ref<T> y)
   {
-    for (Long i = 0; i != x.size(); ++i) {
+    auto n = min(x.size(), y.size());
+    for (Long i = 0; i != n; ++i) {
       try {
-        new (p+i) T{x[i]};
+	initialize(x.ptr(i), move(y[i]));
       }
       catch(...) {
-        destroy(vector_ref<T>{p, i});
+        destroy(vector_ref<T>{x.ptr(), i});
         throw;
       }
     }
+    return n;
   }
 
-  template<typename T> void initialize(T *p, vector_rv_ref<T> x)
+  template<typename T> void destroy(vector_ref<T> v)
   {
-    for (Long i = 0; i != x.size(); ++i) {
-      try {
-        new (p+i) T{move(x[i])};
-      }
-      catch(...) {
-        destroy(vector_ref<T>{p, i});
-        throw;
-      }
-    }
+    for (Long i = v.size() - 1; i >= 0; --i)
+      destroy(v.ptr(i));
   }
-
-  template<typename T> void destroy(T *p, Long n)
-  {
-    for (Long i = n - 1; i != -1; --i)
-      (p+i)->~T();
-  }
-
-  template<typename T> void destroy(vector_ref<T> v) { destroy(v.ptr(), v.size()); }
 
 }
 

@@ -46,7 +46,7 @@ namespace vegan {
     vector<T>::vector(Long n, const T &x): impl{n*(Long)sizeof(T)} { initialize(impl.as_vector<T>(), x); }
 
   template<typename T>
-    vector<T>::vector(const_vector_ref<T> v): impl{v.size()*(Long)sizeof(T)} { initialize(impl.as_vector<T>().ptr(), v); }
+    vector<T>::vector(const_vector_ref<T> v): impl{v.size()*(Long)sizeof(T)} { initialize(impl.as_vector<T>(), v); }
 
   template<typename T>
     vector<T>::~vector() { destroy(impl.as_vector<T>()); impl = bytes{}; }

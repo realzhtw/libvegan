@@ -27,7 +27,7 @@ namespace vegan {
       void append(const T &x) { append(const_vector_ref<T>{&x, 1}); }
       void append(T &&x) { append(vector_rv_ref<T>{&x, 1}); }
 
-      void drop_last(Long n = 1) { destroy(ptr(i - n), n); i -= n; }
+      void drop_last(Long n = 1) { destroy(last_n(data(), n)); i -= n; }
 
     private:
       bytes b;
@@ -41,7 +41,7 @@ namespace vegan {
 
       bytes nb{n*(Long)sizeof(T)};
 
-      initialize(nb.as_vector<T>().ptr(), move(data()));
+      initialize(nb.as_vector<T>(), move(data()));
       destroy(data());
       b = move(nb);
     }
@@ -52,7 +52,7 @@ namespace vegan {
       if (capacity() - size() < x.size())
         reserve(max(capacity() == 0 ? 1 : capacity() * 2, size() + x.size()));
 
-      initialize(ptr(i), x);
+      initialize(cut(b.as_vector<T>(), i), x);
       i += x.size();
     }
 
@@ -62,7 +62,7 @@ namespace vegan {
       if (capacity() - size() < x.size())
         reserve(max(capacity() == 0 ? 1 : capacity() * 2, size() + x.size()));
 
-      initialize(ptr(i), x);
+      initialize(cut(b.as_vector<T>(), i), x);
       i += x.size();
     }
 

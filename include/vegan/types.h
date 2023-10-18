@@ -1,12 +1,18 @@
 #ifndef VEGAN_TYPES_H
 #define VEGAN_TYPES_H
 
+#include <vegan/type_traits.h>
+
 namespace vegan {
 
-  typedef unsigned char byte;
+  using byte = unsigned char;
 
-  typedef decltype(sizeof 0) size_t;
-  typedef decltype((char *)0 - (char *)0) Long;
+  using ptrdiff_t = decltype((char *)0 - (char *)0);
+  using ssize_t = ptrdiff_t;
+  using size_t = make_unsigned_t<ssize_t>;
+  using Long = ssize_t;
+  using intptr_t = ptrdiff_t;
+  using uintptr_t = make_unsigned_t<intptr_t>;
 
   template<typename T> Long size_of(const T &) { return (Long)sizeof(T); }
 
