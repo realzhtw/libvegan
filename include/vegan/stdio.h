@@ -39,9 +39,7 @@ namespace vegan {
   class string;
   class string_ref;
 
-  Long fread(input_port &, byte *, Long);
   bool fread(input_port &, bytes_ref);
-  //bool fpeek(input_port &, bytes_ref);
   bool fpeek(input_port &, byte &);
   bool fpeek(input_port &, rune &);
   bool fskip(input_port &, Long n = 1);

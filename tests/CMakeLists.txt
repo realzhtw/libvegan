@@ -5,7 +5,7 @@ enable_testing()
 
 include(GoogleTest)
 
-foreach(TEST utf8 memory output_buffer stdio string string_output_port unique_ptr)
+foreach(TEST utf8 memory output_buffer holder_ptr stdio string string_output_port unique_ptr)
   add_executable(${TEST}_test
     ${TEST}.cpp
   )

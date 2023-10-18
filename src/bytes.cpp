@@ -1,13 +1,13 @@
 #include <vegan/bytes.h>
 #include <vegan/utils.h>
 #include <vegan/string_ref.h>
-#include "platform/alloc.h"
+#include <vegan/memory.h>
 
 namespace vegan {
 
   bytes::bytes(Long n)
   {
-    byte *p = (byte *)platform::alloc(n);
+    byte *p = (byte *)alloc(n);
     if (p == nullptr)
       throw bad_alloc{};
     impl = bytes_ref{p, n};
@@ -17,7 +17,7 @@ namespace vegan {
 
   void bytes::free()
   {
-    platform::free(impl.ptr());
+    vegan::free(impl.ptr());
     impl = bytes_ref{};
   }
 

@@ -6,7 +6,7 @@
 
 namespace vegan {
 
-  void *alloc(size_t n, size_t alignment = 1);
+  void *alloc(Long n, Long alignment = 1);
   void free(void *);
 
   template<typename T, typename... Args> void initialize(T *p, Args &&... args);

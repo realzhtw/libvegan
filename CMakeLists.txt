@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(libvegan VERSION 1.0 LANGUAGES CXX)
@@ -48,6 +48,7 @@ add_library(vegan
   src/fs.cpp
   src/input_port.cpp
   src/io_buffer.cpp
+  src/memory.cpp
   src/output_port.cpp
   src/runetype.cpp
   src/stdio.cpp
@@ -57,10 +58,8 @@ add_library(vegan
   src/to_string.cpp
   src/utf8.cpp
 
-  src/platform/alloc.h
   src/platform/fs.h
   src/platform/io.h
-  src/platform/alloc.cpp
   src/platform/fs.cpp
   src/platform/io.cpp
 )
