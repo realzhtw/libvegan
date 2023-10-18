@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(libvegan VERSION 1.0 LANGUAGES CXX)
 
+option(LIBVEGAN_BUILD_TESTS    "Build tests"    ON)
+option(LIBVEGAN_BUILD_EXAMPLES "Build examples" ON)
+
 add_library(vegan
   include/vegan/bsearch.h
   include/vegan/bytes.h
@@ -69,6 +72,12 @@ target_include_directories(vegan
     include
 )
 
-add_subdirectory(examples)
 add_subdirectory(extern)
-add_subdirectory(tests)
+
+if(LIBVEGAN_BUILD_TESTS)
+  add_subdirectory(tests)
+endif()
+
+if(LIBVEGAN_BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()

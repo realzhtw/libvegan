@@ -1,1 +1,3 @@
-add_subdirectory(googletest)
+if(LIBVEGAN_BUILD_TESTS)
+  add_subdirectory(googletest)
+endif()
