@@ -25,6 +25,8 @@ add_library(vegan
   include/vegan/output_buffer.h
   include/vegan/output_port.h
   include/vegan/pair.h
+  include/vegan/partition.h
+  include/vegan/quicksort.h
   include/vegan/rune.h
   include/vegan/slice.h
   include/vegan/sort.h

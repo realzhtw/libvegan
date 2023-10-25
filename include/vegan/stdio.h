@@ -77,6 +77,9 @@ namespace vegan {
       fprint(op, ']');
     }
 
+  template<typename T>
+    void fprint(output_port &op, vector_ref<T> x) { fprint(op, const_vector_ref<T>{x}); }
+
   template<typename T> class vector;
 
   template<typename T>
