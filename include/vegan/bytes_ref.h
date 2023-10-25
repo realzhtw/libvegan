@@ -91,6 +91,8 @@ namespace vegan {
   void copy(byte *dst, const_bytes_ref);
   Long copy(bytes_ref dst, const_bytes_ref);
 
+  Long find(const_bytes_ref, byte);
+
   template<typename T> vector_ref<T> bytes_ref::as_vector() const
   {
     return {(T *)ptr(), size() / (Long)sizeof(T)};

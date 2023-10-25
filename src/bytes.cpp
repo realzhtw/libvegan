@@ -48,4 +48,12 @@ namespace vegan {
            a.size() > b.size() ?  1 : 0;
   }
 
+  Long find(const_bytes_ref x, byte b)
+  {
+    Long i = 0;
+    while (i < x.size() && x[i] != b)
+      ++i;
+    return i;
+  }
+
 }

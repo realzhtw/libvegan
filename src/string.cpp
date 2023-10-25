@@ -1,6 +1,7 @@
 #include <vegan/string.h>
 #include <vegan/c_string.h>
 #include <vegan/utils.h>
+#include <vegan/utf8.h>
 
 namespace vegan {
 
@@ -36,6 +37,23 @@ namespace vegan {
   bool has_suffix(string_ref s, string_ref suff)
   {
     return last_n(s.as_bytes(), suff.size()) == suff.as_bytes();
+  }
+
+  Long find(string_ref s, char c) { return find(s.as_bytes(), (byte)c); }
+
+  Long find(string_ref s, rune r)
+  {
+    auto b = s.as_bytes();
+    byte buf[6];
+    auto n = utf8::encode_rune(r, buf);
+    for (Long i = 0; i < s.size() - n + 1; ++i) {
+      int j = 0;
+      while (j < n && b[i+j] == buf[j])
+        ++j;
+      if (j == n)
+        return i;
+    }
+    return s.size();
   }
 
 }

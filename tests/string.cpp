@@ -39,4 +39,27 @@ namespace {
     EXPECT_TRUE(has_suffix("Object-oriented design is the roman numerals of computing.", "g."));
   }
 
+  TEST(string, find_char)
+  {
+    EXPECT_EQ(find("", 'x'), 0);
+    EXPECT_EQ(find("x", 'x'), 0);
+    EXPECT_EQ(find("x", 'y'), 1);
+    EXPECT_EQ(find("xx", 'x'), 0);
+    EXPECT_EQ(find("xy", 'y'), 1);
+    EXPECT_EQ(find("xyz", 'y'), 1);
+    EXPECT_EQ(find("Object-oriented programming offers a sustainable way to write spaghetti code.", 'o'), 7);
+  }
+
+  TEST(string, find_rune)
+  {
+    EXPECT_EQ(find("rune", rune{'e'}), 3);
+    EXPECT_EQ(find("rune", rune{'x'}), 4);
+    auto s = with_output_to_string([] { println(rune{0x6096}, rune{0x8bba}); });
+    EXPECT_EQ(find(s, rune{0x6096}), 0);
+    EXPECT_EQ(find(s, rune{0x8bba}), 3);
+    EXPECT_EQ(find(s, rune{0x754c}), 7);
+    EXPECT_EQ(find(s, rune{'\n'}), 6);
+    EXPECT_EQ(find(s, rune{'x'}), 7);
+  }
+
 }

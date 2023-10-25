@@ -2,6 +2,7 @@
 #define VEGAN_STRING_REF_H
 
 #include <vegan/types.h>
+#include <vegan/rune.h>
 
 namespace vegan {
 
@@ -46,6 +47,9 @@ namespace vegan {
 
   bool has_prefix(string_ref, string_ref);
   bool has_suffix(string_ref, string_ref);
+
+  Long find(string_ref, char);
+  Long find(string_ref, rune);
 
 }
 
