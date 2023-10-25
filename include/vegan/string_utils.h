@@ -10,9 +10,6 @@ namespace vegan {
 
   //Long count_chars(string_ref);
 
-  bool has_prefix(string_ref, string_ref);
-  bool has_suffix(string_ref, string_ref);
-
   bool drop_prefix(string_ref &, string_ref);
   bool drop_suffix(string_ref &, string_ref);
 

@@ -69,16 +69,12 @@ namespace vegan {
 
   inline       bytes_ref cut(      bytes_ref b, Long i) { return {b.ptr(i), b.size() - i}; }
   inline const_bytes_ref cut(const_bytes_ref b, Long i) { return {b.ptr(i), b.size() - i}; }
-  inline       bytes_ref cut(      bytes& b, Long i) { return cut(      bytes_ref{b}, i); }
-  inline const_bytes_ref cut(const bytes& b, Long i) { return cut(const_bytes_ref{b}, i); }
   inline       bytes_ref cut(      bytes_ref b, Long i, Long n) { return {b.ptr(i), min(n, b.size() - i)}; }
   inline const_bytes_ref cut(const_bytes_ref b, Long i, Long n) { return {b.ptr(i), min(n, b.size() - i)}; }
-  inline       bytes_ref cut(      bytes& b, Long i, Long n) { return cut(      bytes_ref{b}, i, n); }
-  inline const_bytes_ref cut(const bytes& b, Long i, Long n) { return cut(const_bytes_ref{b}, i, n); }
   inline       bytes_ref first_n(      bytes_ref b, Long n) { return cut(b, 0, n); }
   inline const_bytes_ref first_n(const_bytes_ref b, Long n) { return cut(b, 0, n); }
-  inline       bytes_ref first_n(      bytes& b, Long n) { return first_n(      bytes_ref{b}, n); }
-  inline const_bytes_ref first_n(const bytes& b, Long n) { return first_n(const_bytes_ref{b}, n); }
+  inline       bytes_ref last_n(      bytes_ref b, Long n) { return cut(b, b.size() - n); }
+  inline const_bytes_ref last_n(const_bytes_ref b, Long n) { return cut(b, b.size() - n); }
 
   template<Long N>
     bytes_ref first_n(byte (&b)[N], Long n) { return first_n(bytes_ref{b}, n); }
@@ -92,13 +88,18 @@ namespace vegan {
   inline bool operator>=(const_bytes_ref a, const_bytes_ref b) { return compare(a, b) > -1; }
   inline bool operator==(const_bytes_ref a, const_bytes_ref b) { return compare(a, b) == 0; }
 
-  void copy(byte *dst, const byte *, Long);
   void copy(byte *dst, const_bytes_ref);
-  Long copy(bytes_ref dst, const byte *, Long);
   Long copy(bytes_ref dst, const_bytes_ref);
 
-  template<typename T>       vector_ref<T>       bytes_ref::as_vector() const { return {      (T *)ptr(), size() / (Long)sizeof(T)}; }
-  template<typename T> const_vector_ref<T> const_bytes_ref::as_vector() const { return {(const T *)ptr(), size() / (Long)sizeof(T)}; }
+  template<typename T> vector_ref<T> bytes_ref::as_vector() const
+  {
+    return {(T *)ptr(), size() / (Long)sizeof(T)};
+  }
+
+  template<typename T> const_vector_ref<T> const_bytes_ref::as_vector() const
+  {
+    return {(const T *)ptr(), size() / (Long)sizeof(T)};
+  }
 
 }
 

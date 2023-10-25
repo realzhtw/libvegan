@@ -17,4 +17,26 @@ namespace {
     EXPECT_EQ(s.size(), 20);
   }
 
+  TEST(string, has_prefix)
+  {
+    EXPECT_TRUE(has_prefix("", ""));
+    EXPECT_FALSE(has_prefix("", "x"));
+    EXPECT_TRUE(has_prefix("x", "x"));
+    EXPECT_TRUE(has_prefix("xy", "x"));
+    EXPECT_FALSE(has_prefix("x", "y"));
+    EXPECT_FALSE(has_prefix("x", "xy"));
+    EXPECT_TRUE(has_prefix("Object-oriented design is the roman numerals of computing.", "Ob"));
+  }
+
+  TEST(string, has_suffix)
+  {
+    EXPECT_TRUE(has_suffix("", ""));
+    EXPECT_FALSE(has_suffix("", "x"));
+    EXPECT_TRUE(has_suffix("x", "x"));
+    EXPECT_TRUE(has_suffix("yx", "x"));
+    EXPECT_FALSE(has_suffix("x", "y"));
+    EXPECT_FALSE(has_suffix("x", "yx"));
+    EXPECT_TRUE(has_suffix("Object-oriented design is the roman numerals of computing.", "g."));
+  }
+
 }

@@ -24,7 +24,8 @@ namespace vegan {
       if (dst.size() >= block_size) {
         auto n = backend_read_some({dst.ptr(), block_size});
         auto b = min(n, max_backoff);
-        copy(ibuf.rdptr() - b, dst.ptr(n - b), b);
+        //copy(ibuf.rdptr() - b, dst.ptr(n - b), b);
+        copy(ibuf.rdptr() - b, cut(dst, n - b, b));
         return n;
       }
       auto n = backend_read_some({ibuf.wrptr(), ibuf.space_left()});

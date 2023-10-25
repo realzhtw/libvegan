@@ -28,9 +28,14 @@ namespace vegan {
 
   int compare(string_ref a, string_ref b) { return compare(a.as_bytes(), b.as_bytes()); }
 
-  bool has_prefix(string_ref s, string_ref prefix)
+  bool has_prefix(string_ref s, string_ref pref)
   {
-    return size(s) > size(prefix) && first_n(s.as_bytes(), prefix.size()) == prefix.as_bytes();
+    return first_n(s.as_bytes(), pref.size()) == pref.as_bytes();
+  }
+
+  bool has_suffix(string_ref s, string_ref suff)
+  {
+    return last_n(s.as_bytes(), suff.size()) == suff.as_bytes();
   }
 
 }

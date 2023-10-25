@@ -8,7 +8,7 @@ namespace vegan {
   void io_buffer::reset(int keep)
   {
     auto n = min(rdpos(), keep);
-    copy(b.ptr(keep - n), rdptr(), n);
+    copy(b.ptr(keep - n), first_n(data(), n));
     i = j = keep;
   }
 
