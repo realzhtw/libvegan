@@ -19,9 +19,11 @@ namespace vegan {
       auto x = ord(r);
       if (x < 0x80)  { b[0] = x; return 1; }
       int n = rune_length(r);
-      b[0] = x >> (n - 1) * 5 & (1 << 7 - n) - 1;
-      for (int i = 1; i != n; ++i)
-        b[i] = x >> 6 * i & 0x3f;
+      for (auto p = b.ptr(n - 1); p > b.ptr(); --p) {
+        *p = 0x80 | (x & 0x3f);
+        x >>= 6;
+      }
+      b[0] = (x & (1 << 7 - n) - 1) | (0xfc << 6 - n);
       return n;
     }
 

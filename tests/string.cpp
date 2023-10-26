@@ -1,4 +1,3 @@
-#include <vegan/string_output_port.h>
 #include <vegan/stdio.h>
 #include <vegan/string.h>
 #include <gtest/gtest.h>
@@ -54,12 +53,20 @@ namespace {
   {
     EXPECT_EQ(find("rune", rune{'e'}), 3);
     EXPECT_EQ(find("rune", rune{'x'}), 4);
-    auto s = with_output_to_string([] { println(rune{0x6096}, rune{0x8bba}); });
+    string s = u8"悖论\n";
+    EXPECT_EQ(find(s, rune{0x6096}), 0);
     EXPECT_EQ(find(s, rune{0x6096}), 0);
     EXPECT_EQ(find(s, rune{0x8bba}), 3);
     EXPECT_EQ(find(s, rune{0x754c}), 7);
     EXPECT_EQ(find(s, rune{'\n'}), 6);
     EXPECT_EQ(find(s, rune{'x'}), 7);
   }
+
+  //TEST(string, split)
+  //{
+  //  auto v = split("root:x:0:0:root:/root:/bin/ksh", ':');
+  //  EXPECT_EQ(v.size(), 7);
+  //  EXPECT_EQ(v[0], "root"
+  //}
 
 }

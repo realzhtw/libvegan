@@ -8,16 +8,10 @@
 
 namespace vegan {
 
-  //Long count_chars(string_ref);
-
   bool drop_prefix(string_ref &, string_ref);
   bool drop_suffix(string_ref &, string_ref);
 
-  Long find(string_ref, rune);
-  Long find(string_ref, string_ref);
-
   vector<string_ref> split(string_ref, rune);
-  vector<string_ref> split(string_ref, string_ref);
 
 }
 
