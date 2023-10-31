@@ -1,7 +1,7 @@
 #ifndef VEGAN_STRING_REF_H
 #define VEGAN_STRING_REF_H
 
-#include <vegan/types.h>
+#include <vegan/bytes_ref.h>
 #include <vegan/rune.h>
 
 namespace vegan {
@@ -14,16 +14,17 @@ namespace vegan {
       string_ref() {}
       string_ref(const char *);
       string_ref(const string &);
-      explicit string_ref(const char *p, Long n): p{p}, n{n} {}
+      explicit string_ref(const_bytes_ref b): impl{b} {}
 
-      const char *ptr() const { return p; }
-      Long size() const { return n; }
+      const byte *ptr() const { return impl.ptr(); }
+      Long size() const { return impl.size(); }
+      bool empty() const { return size() == 0; }
 
-      const_bytes_ref as_bytes() const;
+      const_bytes_ref &as_bytes()       { return impl; }
+      const_bytes_ref  as_bytes() const { return impl; }
 
     private:
-      const char *p = nullptr;
-      Long        n = 0;
+      const_bytes_ref impl;
   };
 
   class c_string_ref {
@@ -32,13 +33,13 @@ namespace vegan {
       c_string_ref(const char *s): p{s} {}
       c_string_ref(const string &);
 
-      const char *ptr() const { return p; }
+      const byte *ptr() const { return reinterpret_cast<const byte *>(p); }
 
     private:
       const char *p = nullptr;
   };
 
-  int compare(string_ref, string_ref);
+  inline int compare(string_ref a, string_ref b) { return compare(a.as_bytes(), b.as_bytes()); }
   inline bool operator<(string_ref a, string_ref b) { return compare(a, b) < 0; }
   inline bool operator<=(string_ref a, string_ref b) { return compare(a, b) < 1; }
   inline bool operator>(string_ref a, string_ref b) { return compare(a, b) > 0; }

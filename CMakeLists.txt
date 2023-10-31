@@ -34,6 +34,7 @@ add_library(vegan
   include/vegan/stdio.h
   include/vegan/string.h
   include/vegan/string_buf.h
+  include/vegan/string_io.h
   include/vegan/string_output_port.h
   include/vegan/string_ref.h
   include/vegan/string_utils.h
@@ -59,6 +60,7 @@ add_library(vegan
   src/stdio.cpp
   src/string.cpp
   src/string_buf.cpp
+  src/string_io.cpp
   src/string_output_port.cpp
   src/to_string.cpp
   src/utf8.cpp

@@ -7,12 +7,12 @@ namespace vegan {
 
   string::string(Long n): impl{n+1} {}
 
-  string::string(const char *s): string{s, c_string_length(s)} {}
+  string::string(const char *s): string{string_ref{s}} {}
 
-  string::string(const char *p, Long n): string{n}
+  string::string(const_bytes_ref b): string{b.size()}
   {
-    copy(impl.ptr(), string_ref{p, n}.as_bytes());
-    impl[n] = '\0';
+    copy(impl.ptr(), b);
+    impl[impl.size()-1] = '\0';
   }
 
   string operator+(string_ref a, string_ref b)
@@ -23,11 +23,8 @@ namespace vegan {
     return s;
   }
 
-  string_ref::string_ref(const char *s): string_ref{s, c_string_length(s)} {}
-
-  const_bytes_ref string_ref::as_bytes() const { return const_bytes_ref{(const byte *)p, n}; }
-
-  int compare(string_ref a, string_ref b) { return compare(a.as_bytes(), b.as_bytes()); }
+  string_ref::string_ref(const char *s):
+    string_ref{const_bytes_ref{reinterpret_cast<const byte *>(s), c_string_length(s)}} {}
 
   bool has_prefix(string_ref s, string_ref pref)
   {

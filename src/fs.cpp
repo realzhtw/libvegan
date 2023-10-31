@@ -31,7 +31,7 @@ namespace vegan {
     vector<string> ls(string_ref path)
     {
       vector_buf<string> r;
-      dir d{platform::opendir(string{path}.ptr())};
+      dir d{platform::opendir(string{path}.c_str())};
 
       platform::direntry e;
 

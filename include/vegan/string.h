@@ -11,21 +11,22 @@ namespace vegan {
       string(): string("") {}
       explicit string(Long);
       string(const char *);
-      explicit string(const char *, Long n);
-      string(string_ref s): string{s.ptr(), s.size()} {}
-      string(const string &s): string{s.ptr(), s.size()} {}
+      explicit string(const_bytes_ref);
+      string(string_ref s): string{s.as_bytes()} {}
+      string(const string &s): string{s.as_bytes()} {}
       string(string &&s): impl{move(s.impl)} {}
 
       string &operator=(const string &);
       string &operator=(string &&s) { impl = move(s.impl); return *this; }
 
-            char *ptr()       { return (char *)impl.ptr(); }
-      const char *ptr() const { return (char *)impl.ptr(); }
+            byte *ptr()       { return impl.ptr(); }
+      const byte *ptr() const { return impl.ptr(); }
+      const char *c_str() const { return reinterpret_cast<const char *>(ptr()); }
 
       Long size() const { return impl.size() - 1; }
 
-            bytes_ref as_bytes()       { return impl; }
-      const_bytes_ref as_bytes() const { return impl; }
+            bytes_ref as_bytes()       { return first_n(bytes_ref{impl}, size()); }
+      const_bytes_ref as_bytes() const { return first_n(impl, size()); }
 
     private:
       bytes impl;
@@ -42,7 +43,7 @@ namespace vegan {
   string to_string(long long);
   string to_string(unsigned long long);
 
-  inline string_ref::string_ref(const string &s): p{s.ptr()}, n{s.size()} {}
+  inline string_ref::string_ref(const string &s): string_ref{s.as_bytes()} {}
 
 }
 

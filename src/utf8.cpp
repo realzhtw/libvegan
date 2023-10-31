@@ -37,18 +37,20 @@ namespace vegan {
              (b >> 1) == 126 ? 6 : 0;
     }
 
-    rune decode_rune(const byte *p, int n)
+    bool decode_rune(const_bytes_ref b, rune &r)
     {
-      if (n == 0) return bad_rune;
-      if (*p < 0x80) return rune{*p};
+      auto n = b.size();
+      if (n == 0) return false;
+      if (b[0] < 0x80) { r = rune{b[0]}; return true; }
 
-      int len = decode_rune_length(*p);
-      if (n < len) return bad_rune;
+      int len = decode_rune_length(b[0]);
+      if (n < len) return false;
 
-      int x = *p & (1 << 7 - n) - 1;
+      int x = b[0] & (1 << 7 - n) - 1;
       for (int i = 1; i < len; ++i)
-        x = x << 6 | p[i] & 0x3f;
-      return rune{x};
+        x = x << 6 | b[i] & 0x3f;
+      r = rune{x};
+      return true;
     }
 
   }

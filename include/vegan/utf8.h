@@ -18,8 +18,7 @@ namespace vegan {
     int encode_rune(rune, bytes_ref);
 
     int decode_rune_length(byte);
-    rune decode_rune(const byte *, int n);
-    inline rune decode_rune(const_bytes_ref b) { return decode_rune(b.ptr(), b.size()); }
+    bool decode_rune(const_bytes_ref b, rune &);
 
   }
 

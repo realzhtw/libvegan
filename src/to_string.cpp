@@ -1,6 +1,5 @@
 #include <vegan/utils.h>
 #include <vegan/string.h>
-#include <vegan/string_buf.h>
 
 namespace {
   using namespace vegan;
@@ -20,7 +19,7 @@ namespace {
     }
     if (neg) buf[i--] = '-';
     ++i;
-    return string{buf+i, n-i};
+    return string{const_bytes_ref{reinterpret_cast<const byte *>(buf+i), n-i}};
    }
 
 }

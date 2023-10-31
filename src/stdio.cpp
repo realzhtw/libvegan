@@ -48,8 +48,7 @@ namespace vegan {
     auto n = fread(ip, buf, len);
     if (n != len) return false;
 
-    r = utf8::decode_rune(buf, n);
-    return true;
+    return utf8::decode_rune(buf, r);
   }
 
   bool fputback(input_port &ip, rune r)

@@ -31,8 +31,6 @@ namespace vegan {
 
       template<typename T> vector_ref<T> as_vector() const;
 
-      string_ref as_string() const;
-
     private:
       struct Impl {
         byte *p = nullptr;
@@ -58,8 +56,6 @@ namespace vegan {
 
       template<typename T> const_vector_ref<T> as_vector() const;
 
-      string_ref as_string() const;
- 
     private:
       struct Impl {
         const byte *p = nullptr;

@@ -12,7 +12,7 @@ namespace vegan {
     public:
       string_buf() {}
 
-      string_ref data() const { return first_n(b, i).as_string(); }
+      string_ref data() const { return string_ref{first_n(b, i)}; }
 
       Long size() const { return i; }
       Long capacity() const { return b.size(); }
