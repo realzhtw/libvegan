@@ -25,8 +25,8 @@ namespace vegan {
 
       Long size() const { return impl.size() - 1; }
 
-            bytes_ref as_bytes()       { return first_n(bytes_ref{impl}, size()); }
-      const_bytes_ref as_bytes() const { return first_n(impl, size()); }
+            bytes_ref as_bytes()       { return drop_last(impl); }
+      const_bytes_ref as_bytes() const { return drop_last(impl); }
 
     private:
       bytes impl;

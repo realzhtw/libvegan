@@ -13,6 +13,7 @@ namespace vegan {
     public:
       bytes() {}
       explicit bytes(Long n);
+      explicit bytes(Long n, byte);
       bytes(bytes &&b): impl{b.impl} { b.impl = bytes_ref{}; }
       bytes(const_bytes_ref b);
       bytes(const bytes &) = delete;
@@ -40,6 +41,9 @@ namespace vegan {
     private:
       bytes_ref impl;
   };
+
+  inline       bytes_ref drop_last(      bytes &b, Long n = 1) { return drop_last(      bytes_ref{b}, n); }
+  inline const_bytes_ref drop_last(const bytes &b, Long n = 1) { return drop_last(const_bytes_ref{b}, n); }
 
   inline bytes_ref::bytes_ref(bytes &b): bytes_ref{b.ptr(), b.size()} {}
   inline const_bytes_ref::const_bytes_ref(const bytes &b): const_bytes_ref{b.ptr(), b.size()} {}

@@ -25,7 +25,8 @@ namespace vegan {
       byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
 
-      void drop_first(Long n) { impl.p += n; impl.n -= n; }
+      void drop_first(Long n = 1) { auto m = min(n, size()); impl.p += m; impl.n -= m; }
+      void drop_last(Long n = 1) { impl.n -= min(n, size()); }
 
       byte &operator[](Long i) const { return *ptr(i); }
 
@@ -50,7 +51,8 @@ namespace vegan {
       const byte *ptr(Long i = 0) const { return impl.p + i; }
       Long size() const { return impl.n; }
 
-      void drop_first(Long n) { impl.p += n; impl.n -= n; }
+      void drop_first(Long n) { auto m = min(n, size()); impl.p += m; impl.n -= m; }
+      void drop_last(Long n) { impl.n -= min(n, size()); }
 
       const byte &operator[](Long i) const { return *ptr(i); }
 
@@ -71,6 +73,8 @@ namespace vegan {
   inline const_bytes_ref first_n(const_bytes_ref b, Long n) { return cut(b, 0, n); }
   inline       bytes_ref last_n(      bytes_ref b, Long n) { return cut(b, b.size() - n); }
   inline const_bytes_ref last_n(const_bytes_ref b, Long n) { return cut(b, b.size() - n); }
+  inline       bytes_ref drop_last(      bytes_ref b, Long n = 1) { return first_n(b, b.size() - n); }
+  inline const_bytes_ref drop_last(const_bytes_ref b, Long n = 1) { return first_n(b, b.size() - n); }
 
   template<Long N>
     bytes_ref first_n(byte (&b)[N], Long n) { return first_n(bytes_ref{b}, n); }
