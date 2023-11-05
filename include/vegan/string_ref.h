@@ -7,7 +7,6 @@
 namespace vegan {
 
   class string;
-  class const_bytes_ref;
 
   class string_ref {
     public:

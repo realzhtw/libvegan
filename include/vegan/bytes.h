@@ -29,12 +29,6 @@ namespace vegan {
       const byte &operator[](Long i) const { return *ptr(i); }
             byte &operator[](Long i)       { return *ptr(i); }
 
-      template<typename T>
-        vector_ref<T> as_vector() { return impl.as_vector<T>(); }
-
-      template<typename T>
-        const_vector_ref<T> as_vector() const { return impl.as_vector<T>(); }
-      
     private:
       void free();
 
@@ -42,11 +36,25 @@ namespace vegan {
       bytes_ref impl;
   };
 
+  inline       bytes_ref drop_first(      bytes &b, Long n = 1) { return drop_first(      bytes_ref{b}, n); }
+  inline const_bytes_ref drop_first(const bytes &b, Long n = 1) { return drop_first(const_bytes_ref{b}, n); }
   inline       bytes_ref drop_last(      bytes &b, Long n = 1) { return drop_last(      bytes_ref{b}, n); }
   inline const_bytes_ref drop_last(const bytes &b, Long n = 1) { return drop_last(const_bytes_ref{b}, n); }
+  inline       bytes_ref first_n(      bytes &b, Long n) { return first_n(      bytes_ref{b}, n); }
+  inline const_bytes_ref first_n(const bytes &b, Long n) { return first_n(const_bytes_ref{b}, n); }
+  inline       bytes_ref last_n(      bytes &b, Long n) { return last_n(      bytes_ref{b}, n); }
+  inline const_bytes_ref last_n(const bytes &b, Long n) { return last_n(const_bytes_ref{b}, n); }
+  inline       bytes_ref cut(      bytes &b, Long i) { return cut(      bytes_ref{b}, i); }
+  inline const_bytes_ref cut(const bytes &b, Long i) { return cut(const_bytes_ref{b}, i); }
+  inline       bytes_ref cut(      bytes &b, Long i, Long n) { return cut(      bytes_ref{b}, i, n); }
+  inline const_bytes_ref cut(const bytes &b, Long i, Long n) { return cut(const_bytes_ref{b}, i, n); }
 
-  inline bytes_ref::bytes_ref(bytes &b): bytes_ref{b.ptr(), b.size()} {}
-  inline const_bytes_ref::const_bytes_ref(const bytes &b): const_bytes_ref{b.ptr(), b.size()} {}
+  template<typename T> span<      T> as_span(      bytes &x) { return as_span<      T>(span<      byte>{x}); }
+  template<typename T> span<const T> as_span(const bytes &x) { return as_span<const T>(span<const byte>{x}); }
+
+  template<> inline span<      byte>::span(      bytes &b): span{b.ptr(), b.size()} {}
+  template<> inline span<const byte>::span(      bytes &b): span{b.ptr(), b.size()} {}
+  template<> inline span<const byte>::span(const bytes &b): span{b.ptr(), b.size()} {}
 
 }
 

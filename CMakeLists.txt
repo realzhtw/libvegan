@@ -29,7 +29,7 @@ add_library(vegan
   include/vegan/quicksort.h
   include/vegan/rune.h
   include/vegan/slice.h
-  include/vegan/sort.h
+  include/vegan/span.h
   include/vegan/stack.h
   include/vegan/stdio.h
   include/vegan/string.h
@@ -38,12 +38,12 @@ add_library(vegan
   include/vegan/string_output_port.h
   include/vegan/string_ref.h
   include/vegan/string_utils.h
+  include/vegan/sort.h
   include/vegan/types.h
   include/vegan/utf8.h
   include/vegan/utils.h
   include/vegan/vector.h
   include/vegan/vector_buf.h
-  include/vegan/vector_ref.h
   include/vegan/vector_slice.h
 
   src/bytes.cpp

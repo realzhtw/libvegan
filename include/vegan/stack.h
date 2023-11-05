@@ -8,11 +8,14 @@ namespace vegan {
   template<typename T>
     class stack {
       public:
-        stack(const_vector_ref<T> init = vector_ref<T>{})  { b.append(init); }
-	void push(const T &x) { b.append(x); }
-	void pop() { b.drop_last(); }
-	T       &top()       { return b.data()[b.size() - 1]; }
-	const T &top() const { return b.data()[b.size() - 1]; }
+        explicit stack(span<const T> init = span<const T>{})  { b.append(init); }
+        explicit stack(rv_span<T> init)  { b.append(init); }
+	void push(const T &x) { b.push_back(x); }
+	void push(T &&x) { b.push_back(move(x)); }
+	T pop() { auto x = move(top()); b.drop_last(); return x; }
+	void pop(T &x) { x = move(pop()); }
+	T       &top()       { return b.data().back(); }
+	const T &top() const { return b.data().back(); }
 
         Long size() const { return b.size(); }
         bool empty() const { return size() == 0; }

@@ -12,6 +12,8 @@ namespace vegan {
 
   template<typename T> void swap(T &a, T &b) { auto x = move(a); a = move(b); b = move(x); }
 
+  template<typename T, Long N> Long size(T (&x)[N]) { return N; }
+
   template<typename T> Long size(const T &x) { return x.size(); }
 
 }

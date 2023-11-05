@@ -2,7 +2,7 @@
 #define VEGAN_MEMORY_H
 
 #include <vegan/types.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 
 namespace vegan {
 
@@ -10,19 +10,19 @@ namespace vegan {
   void free(void *);
 
   template<typename T, typename... Args> void initialize(T *p, Args &&... args);
-  template<typename T, typename... Args> void initialize(vector_ref<T>, Args &&... args);
-  template<typename T> Long initialize(vector_ref<T>, const_vector_ref<T>);
-  template<typename T> Long initialize(vector_ref<T>, vector_rv_ref<T>);
+  template<typename T, typename... Args> void initialize(span<T>, Args &&... args);
+  template<typename T> Long initialize(span<T>, span<const T>);
+  template<typename T> Long initialize(span<T>, span<T &&>);
 
   template<typename T> void destroy(T *p) { p->~T(); }
-  template<typename T> void destroy(vector_ref<T>);
+  template<typename T> void destroy(span<T>);
 
   template<typename T, typename... Args> void initialize(T *p, Args &&... args)
   {
     new (p) T{forward<Args>(args)...};
   }
 
-  template<typename T, typename... Args> void initialize(vector_ref<T> x, Args &&...args)
+  template<typename T, typename... Args> void initialize(span<T> x, Args &&...args)
   {
     for (Long i = 0; i != x.size(); ++i) {
       try {
@@ -35,7 +35,7 @@ namespace vegan {
     }
   }
 
-  template<typename T> Long initialize(vector_ref<T> x, const_vector_ref<T> y)
+  template<typename T> Long initialize(span<T> x, span<const T> y)
   {
     auto n = min(x.size(), y.size());
     for (Long i = 0; i != n; ++i) {
@@ -50,22 +50,15 @@ namespace vegan {
     return n;
   }
 
-  template<typename T> Long initialize(vector_ref<T> x, vector_rv_ref<T> y)
+  template<typename T> Long initialize(span<T> x, rv_span<T> y)
   {
     auto n = min(x.size(), y.size());
-    for (Long i = 0; i != n; ++i) {
-      try {
-	initialize(x.ptr(i), move(y[i]));
-      }
-      catch(...) {
-        destroy(vector_ref<T>{x.ptr(), i});
-        throw;
-      }
-    }
+    for (Long i = 0; i != n; ++i)
+      initialize(x.ptr(i), move(y[i]));
     return n;
   }
 
-  template<typename T> void destroy(vector_ref<T> v)
+  template<typename T> void destroy(span<T> v)
   {
     for (Long i = v.size() - 1; i >= 0; --i)
       destroy(v.ptr(i));

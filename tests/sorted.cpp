@@ -1,4 +1,4 @@
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 #include <vegan/utils.h>
 #include <gtest/gtest.h>
 
@@ -8,7 +8,7 @@ namespace {
 
   TEST(sorted, trivial)
   {
-    EXPECT_TRUE(sorted<int>({}));
+    EXPECT_TRUE(sorted<int>(span<int>{}));
     int x[] = {-422};
     EXPECT_TRUE(sorted(x));
   }

@@ -12,20 +12,20 @@ namespace vegan {
       vector_buf() {}
       ~vector_buf() { destroy(data()); }
 
-            vector_ref<T> data()       { return first_n(b.as_vector<T>(), i); }
-      const_vector_ref<T> data() const { return first_n(b.as_vector<T>(), i); }
+      span<      T> data()       { return first_n(as_span<      T>(b), i); }
+      span<const T> data() const { return first_n(as_span<const T>(b), i); }
 
-            T *ptr(Long i = 0)       { return b.as_vector<T>().ptr(i); }
-      const T *ptr(Long i = 0) const { return b.as_vector<T>().ptr(i); }
+      //      T *ptr(Long i = 0)       { return as_span<T>(b).ptr(i); }
+      //const T *ptr(Long i = 0) const { return as_span<T>(b).ptr(i); }
 
       Long size() const { return i; }
-      Long capacity() const { return b.as_vector<T>().size(); }
+      Long capacity() const { return as_span<const T>(b).size(); }
       void reserve(Long n);
 
-      void append(const_vector_ref<T>);
-      void append(vector_rv_ref<T>);
-      void append(const T &x) { append(const_vector_ref<T>{&x, 1}); }
-      void append(T &&x) { append(vector_rv_ref<T>{&x, 1}); }
+      void append(span<const T>);
+      void append(rv_span<T>);
+      void push_back(const T &x) { append(make_span(&x, 1)); }
+      void push_back(T &&x) { append(make_rv_span(&x, 1)); }
 
       void drop_last(Long n = 1) { destroy(last_n(data(), n)); i -= n; }
 
@@ -41,28 +41,28 @@ namespace vegan {
 
       bytes nb{n*(Long)sizeof(T)};
 
-      initialize(nb.as_vector<T>(), move(data()));
+      initialize(as_span<T>(b), move(data()));
       destroy(data());
       b = move(nb);
     }
 
   template<typename T>
-    void vector_buf<T>::append(const_vector_ref<T> x)
+    void vector_buf<T>::append(span<const T> x)
     {
       if (capacity() - size() < x.size())
         reserve(max(capacity() == 0 ? 1 : capacity() * 2, size() + x.size()));
 
-      initialize(cut(b.as_vector<T>(), i), x);
+      initialize(cut(as_span<T>(b), i), x);
       i += x.size();
     }
 
   template<typename T>
-    void vector_buf<T>::append(vector_rv_ref<T> x)
+    void vector_buf<T>::append(rv_span<T> x)
     {
       if (capacity() - size() < x.size())
         reserve(max(capacity() == 0 ? 1 : capacity() * 2, size() + x.size()));
 
-      initialize(cut(b.as_vector<T>(), i), x);
+      initialize(cut(as_span<T>(b), i), x);
       i += x.size();
     }
 

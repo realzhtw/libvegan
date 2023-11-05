@@ -1,6 +1,6 @@
 #include <vegan/bytes.h>
 #include <vegan/memory.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 #include <gtest/gtest.h>
 
 namespace {
@@ -17,7 +17,7 @@ namespace {
   TEST(initialize, simple)
   {
     bytes b{10 * (Long)sizeof(T)};
-    auto ten = b.as_vector<T>();
+    auto ten = as_span<T>(b);
     auto first_five = first_n(ten, 5);
     auto last_five = last_n(ten, 5);
     initialize(first_five);

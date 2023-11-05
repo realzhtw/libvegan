@@ -3,7 +3,7 @@
 
 #include <vegan/types.h>
 #include <vegan/utils.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 #include <vegan/partition.h>
 #include <vegan/stack.h>
 
@@ -17,13 +17,12 @@ namespace vegan {
     }
 
   template<typename T>
-    void quicksort(vector_ref<T> v)
+    void quicksort(span<T> v)
     {
-      stack<vector_ref<T>> s;
+      stack<span<T>> s;
       s.push(v);
       while (!s.empty()) {
-	auto x = s.top();
-	s.pop();
+	auto x = s.pop();
         if (x.size() < 2) continue;
         if (x.size() == 2) {
           if (!(x[0] < x[1]))
@@ -45,7 +44,7 @@ namespace vegan {
     }
 
   template<typename T, Long n>
-    void quicksort(T (&x)[n]) { quicksort(vector_ref<T>{x}); }
+    void quicksort(T (&x)[n]) { quicksort(span<T>{x}); }
 
 }
 

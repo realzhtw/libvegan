@@ -2,8 +2,9 @@
 #define VEGAN_VECTOR_H
 
 #include <vegan/bytes.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 #include <vegan/memory.h>
+#include <vegan/vector_slice.h>
 
 namespace vegan {
 
@@ -16,13 +17,13 @@ namespace vegan {
       vector() {}
       explicit vector(Long n);
       explicit vector(Long n, const T &);
-      explicit vector(const_vector_ref<T> v);
+      explicit vector(span<const T> v);
       vector(vector<T> &&v): impl{move(v.impl)} {}
       vector(const vector<T> &v): vector{v.ptr(), v.size()} {}
       ~vector();
 
-            T *ptr(Long i = 0)       { return impl.as_vector<T>().ptr(i); }
-      const T *ptr(Long i = 0) const { return impl.as_vector<T>().ptr(i); }
+            T *ptr(Long i = 0)       { return as_span<      T>(impl).ptr(i); }
+      const T *ptr(Long i = 0) const { return as_span<const T>(impl).ptr(i); }
 
       Long size() const { return impl.size() / sizeof(T); }
       bool empty() const { return size() == 0; }
@@ -38,21 +39,19 @@ namespace vegan {
       bytes impl;
   };
 
+  template<typename T> span<T>::span(vector<T> &x): span<T>{x.ptr(), x.size()} {}
 
   template<typename T>
-    vector<T>::vector(Long n): impl{n*(Long)sizeof(T)} { initialize(impl.as_vector<T>()); }
+    vector<T>::vector(Long n): impl{n*(Long)sizeof(T)} { initialize(as_span<T>(impl)); }
 
   template<typename T>
-    vector<T>::vector(Long n, const T &x): impl{n*(Long)sizeof(T)} { initialize(impl.as_vector<T>(), x); }
+    vector<T>::vector(Long n, const T &x): impl{n*(Long)sizeof(T)} { initialize(as_span<T>(impl), x); }
 
   template<typename T>
-    vector<T>::vector(const_vector_ref<T> v): impl{v.size()*(Long)sizeof(T)} { initialize(impl.as_vector<T>(), v); }
+    vector<T>::vector(span<const T> s): impl{s.size()*(Long)sizeof(T)} { initialize(as_span<T>(impl), s); }
 
   template<typename T>
-    vector<T>::~vector() { destroy(impl.as_vector<T>()); impl = bytes{}; }
-
-  template<typename T> vector_ref<T>::vector_ref(vector<T> &v): vector_ref{v.ptr(), v.size()} {}
-  template<typename T> const_vector_ref<T>::const_vector_ref(const vector<T> &v): const_vector_ref{v.ptr(), v.size()} {}
+    vector<T>::~vector() { destroy(as_span<T>(impl)); }
 
   template<typename T> vector_slice<T>::vector_slice(vector<T> &v): vector_slice{v.ptr(), 1, v.size()} {}
   template<typename T> const_vector_slice<T>::const_vector_slice(const vector<T> &v): const_vector_slice{v.ptr(), 1, v.size()} {}

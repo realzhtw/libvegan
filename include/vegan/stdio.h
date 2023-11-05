@@ -4,7 +4,7 @@
 #include <vegan/bytes.h>
 #include <vegan/rune.h>
 #include <vegan/io_error.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 #include <vegan/stack.h>
 #include <vegan/input_port.h>
 #include <vegan/output_port.h>
@@ -68,7 +68,7 @@ namespace vegan {
   void fprint(output_port &, const char *);
 
   template<typename T>
-    void fprint(output_port &op, const_vector_ref<T> x)
+    void fprint(output_port &op, span<T> x)
     {
       fprint(op, '[');
       if (x.size() != 0) fprint(op, x[0]);
@@ -77,13 +77,10 @@ namespace vegan {
       fprint(op, ']');
     }
 
-  template<typename T>
-    void fprint(output_port &op, vector_ref<T> x) { fprint(op, const_vector_ref<T>{x}); }
-
   template<typename T> class vector;
 
   template<typename T>
-    void fprint(output_port &op, const vector<T> &x) { fprint(op, const_vector_ref<T>{x}); }
+    void fprint(output_port &op, const vector<T> &x) { fprint(op, make_span(x.ptr(), x.size())); }
 
   template<typename T, typename U, typename... Args>
     void fprint(output_port &op, const T &x, const U &y, const Args &... rest)

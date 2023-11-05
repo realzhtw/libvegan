@@ -10,7 +10,7 @@ namespace vegan {
 
     bytes nb{n};
 
-    copy(nb.ptr(), b);
+    copy(nb, b);
     b = move(nb);
   }
 
@@ -19,7 +19,7 @@ namespace vegan {
     if (capacity() - size() < x.size())
       reserve(max(capacity() == 0 ? 1 : capacity() * 2, size() + x.size()));
 
-    copy(b.ptr(i), x);
+    copy(drop_first(b, i), x);
     i += x.size();
   }
 

@@ -5,7 +5,7 @@ namespace {
 
   using namespace vegan;
 
-  TEST(bytes, simple)
+  TEST(bytes_ref, simple)
   {
     byte buf[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     bytes_ref b{buf};

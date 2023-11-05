@@ -3,7 +3,7 @@
 
 #include <vegan/types.h>
 #include <vegan/utils.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 
 namespace vegan {
 
@@ -126,10 +126,10 @@ namespace vegan {
   }
 
   template<typename T>
-  void sort(vector_ref<T> x) { return smoothsort(x.ptr(), x.size()); }
+    void sort(span<T> x) { return smoothsort(x.ptr(), x.size()); }
 
   template<typename T>
-  void sort(vector<T> &x) { return sort(vector_ref<T>{x}); }
+    void sort(T &x) { sort(as_span(x)); }
 }
 
 #endif

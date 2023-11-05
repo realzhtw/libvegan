@@ -13,7 +13,7 @@ namespace vegan {
     impl = bytes_ref{p, n};
   }
 
-  bytes::bytes(Long n, byte b): bytes{n} { initialize(impl.as_vector<byte>(), b); }
+  bytes::bytes(Long n, byte b): bytes{n} { initialize(impl, b); }
 
   bytes::bytes(const_bytes_ref b): bytes{b.size()} { copy(ptr(), b); }
 

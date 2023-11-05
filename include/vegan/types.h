@@ -32,8 +32,11 @@ namespace vegan {
 
   template<typename T> class vector_ref;
   template<typename T> class vector_rv_ref;
-
   template<typename T> vector_rv_ref<T> move(vector_ref<T> x) { return {x.ptr(), x.size()}; }
+
+  template<typename T> class span;
+  template<typename T> class rv_span;
+  template<typename T> rv_span<T> move(span<T> x) { return rv_span{x.ptr(), x.size()}; }
 
 }
 

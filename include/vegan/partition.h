@@ -3,12 +3,12 @@
 
 #include <vegan/types.h>
 #include <vegan/utils.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 
 namespace vegan {
 
   template<typename T>
-    Long partition(vector_ref<T> x, const T &pivot)
+    Long partition(span<T> x, const T &pivot)
     {
       Long i = 0, j = x.size();
       while (i < j) {
@@ -25,7 +25,7 @@ namespace vegan {
     }
 
   template<typename T, Long n>
-    Long partition(T (&x)[n], const T &pivot) { return partition(vector_ref{x}, pivot); }
+    Long partition(T (&x)[n], const T &pivot) { return partition(as_span(x), pivot); }
 
 }
 

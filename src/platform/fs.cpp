@@ -1,7 +1,7 @@
 #include "fs.h"
 
 #include <vegan/c_string.h>
-#include <vegan/vector_ref.h>
+#include <vegan/vector_slice.h>
 #include <vegan/bsearch.h>
 
 #include <sys/types.h>
@@ -22,7 +22,7 @@ namespace {
     DT_LNK,     (int)file_type::link,
     DT_SOCK,    (int)file_type::socket
   };
-  const_vector_ref<int> file_type_map{_file_type_map};
+  auto file_type_map = as_span(_file_type_map);
 
   file_type translate_file_type(int platform_file_type)
   {

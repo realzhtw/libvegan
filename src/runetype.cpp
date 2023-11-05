@@ -1,6 +1,6 @@
 #include <vegan/rune.h>
 #include <vegan/bsearch.h>
-#include <vegan/vector_ref.h>
+#include <vegan/span.h>
 
 namespace {
   using namespace vegan;
@@ -34,7 +34,7 @@ namespace {
     0x0061, 0x0066, // L&   [6] LATIN SMALL LETTER A..LATIN SMALL LETTER F
   };
 
-  bool has_property(rune r, const_vector_ref<int> tbl)
+  bool has_property(rune r, span<const int> tbl)
   {
     auto x = ord(r);
     auto i = bsearch(tbl, x);

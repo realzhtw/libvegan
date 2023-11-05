@@ -36,7 +36,7 @@ namespace vegan {
       platform::direntry e;
 
       while (platform::readdir(d.ptr(), &e))
-        r.append(string{e.name});
+        r.push_back(string{e.name});
 
       return vector<string>{r.data()};
     }
