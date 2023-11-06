@@ -19,7 +19,7 @@ namespace vegan {
       span(bytes &);
       span(const bytes &);
       span(vector<T> &x);
-      span(span<remove_const_t<T>> x): span{x.ptr(), x.size()} {}
+      span(const span<remove_const_t<T>> &x): span{x.ptr(), x.size()} {}
       span(rv_span<remove_const_t<T>> x): span{x.ptr(), x.size()} {}
       template<typename U> span(span<U> x): span{x.ptr(), x.size()} {}
 
@@ -43,6 +43,8 @@ namespace vegan {
         T *end = nullptr;
       } impl;
   };
+
+  template<typename T> using const_span = span<const T>;
 
   template<typename T> class rv_span {
     public:
