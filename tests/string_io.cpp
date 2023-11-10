@@ -11,9 +11,22 @@ namespace {
     rune r;
     EXPECT_FALSE(parse_rune(input, r));
     EXPECT_TRUE(input.empty());
-    input = "o";
+    input = u8"oÀͽ";
     EXPECT_TRUE(parse_rune(input, r));
+    EXPECT_EQ(ord(r), 'o');
+    EXPECT_TRUE(parse_rune(input, r));
+    EXPECT_EQ(ord(r), 0xc0);
+    EXPECT_TRUE(parse_rune(input, r));
+    EXPECT_EQ(ord(r), 0x37d);
     EXPECT_TRUE(input.empty());
+    input = u8":AZazÀÖ";
+    parse_rune(input, r);
+    parse_rune(input, r);
+    parse_rune(input, r);
+    parse_rune(input, r);
+    parse_rune(input, r);
+    parse_rune(input, r);
+    EXPECT_EQ(ord(r), 0xc0);
   }
 
 }

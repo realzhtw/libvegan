@@ -5,7 +5,7 @@ enable_testing()
 
 include(GoogleTest)
 
-foreach(TEST bytes bytes_ref utf8 memory output_buffer holder_ptr partition quicksort sorted span stdio string string_io string_output_port unique_ptr)
+foreach(TEST bytes bytes_ref utf8 memory output_buffer holder_ptr partition quicksort sorted span stdio string string_io string_output_port unique_ptr xml)
   add_executable(${TEST}_test
     ${TEST}.cpp
   )

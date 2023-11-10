@@ -64,6 +64,7 @@ add_library(vegan
   src/string_output_port.cpp
   src/to_string.cpp
   src/utf8.cpp
+  src/xml.cpp
 
   src/platform/fs.h
   src/platform/io.h

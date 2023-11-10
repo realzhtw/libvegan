@@ -34,16 +34,17 @@ namespace {
     0x0061, 0x0066, // L&   [6] LATIN SMALL LETTER A..LATIN SMALL LETTER F
   };
 
-  bool has_property(rune r, span<const int> tbl)
+}
+
+
+namespace vegan {
+
+  bool has_property(rune r, const_span<int> tbl)
   {
     auto x = ord(r);
     auto i = bsearch(tbl, x);
     return i < tbl.size() && (tbl[i] == x || (i & 1));
   }
-
-}
-
-namespace vegan {
 
   bool is_white_space(rune r)     { return has_property(r, white_space_tbl); }
   bool is_ascii_hex_digit(rune r) { return has_property(r, ascii_hex_digit_tbl); }

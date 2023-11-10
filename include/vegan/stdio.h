@@ -9,6 +9,16 @@
 #include <vegan/input_port.h>
 #include <vegan/output_port.h>
 
+#ifdef stdin
+#undef stdin
+#endif
+#ifdef stdout
+#undef stdout
+#endif
+#ifdef stderr
+#undef stderr
+#endif
+
 namespace vegan {
 
   extern input_port &stdin;
